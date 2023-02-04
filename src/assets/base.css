@@ -35,13 +35,3 @@ body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
 }
-
-img {
-	max-width: 100%;
-	display: block;
-	height: auto;
-}
-
-ul {
-	list-style: none;
-}

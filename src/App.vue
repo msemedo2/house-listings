@@ -1,7 +1,18 @@
-<script></script>
-
 <template>
-	<div></div>
+	<div>
+		<app-header />
+	</div>
 </template>
 
-<style></style>
+<script>
+import AppHeader from './components/Header.vue';
+
+export default {
+	name: 'App',
+	components: {
+		AppHeader,
+	},
+};
+</script>
+
+<style scoped></style>
