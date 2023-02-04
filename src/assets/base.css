@@ -17,6 +17,10 @@
 	--fw-medium: 500;
 	--fw-semibold: 600;
 	--fw-bold: 700;
+
+	--fs: 18px;
+	--fs-input: 14px;
+	--fs-button: 18px;
 }
 
 *,
