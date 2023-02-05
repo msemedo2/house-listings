@@ -13,7 +13,12 @@ export default {
 	components: {
 		AppHeader,
 	},
+	mounted() {
+		this.$store.dispatch('fetchHouses')
+	},
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>
