@@ -1,5 +1,8 @@
 <template>
   <div class="house-listings-container">
+    <h2 v-show="sortedHouses.length < houses.length && sortedHouses.length !== 0" class="houses-found">{{
+      sortedHouses.length
+    }} houses found</h2>
     <div v-for="{ id, image, location, price, rooms, size } in sortedHouses" :key="id" class="house-container">
       <div class="house-image-container">
         <img :src=image class="house-img" alt="House">
@@ -71,12 +74,17 @@ export default {
   margin-top: 30px;
 }
 
+.houses-found {
+  margin-bottom: 20px;
+}
+
 .house-container {
   background-color: var(--bg-color-light);
   padding: 10px;
   border-radius: 10px;
   display: flex;
   flex-direction: row;
+  margin-top: 20px;
   margin-bottom: 20px;
   gap: 20px;
 }
