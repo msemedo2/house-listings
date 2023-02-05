@@ -9,16 +9,7 @@
 		<!-- Search Field, Price / Size Sort option -->
 		<div class="options-container">
 			<search-field />
-			<div class="filter-container">
-				<button class="price-button" :style="{ backgroundColor: buttonColors[0] }" @click="sortSelection(0)">
-					Price
-				</button>
-				<button class="size-button" :style="{ backgroundColor: buttonColors[1] }" @click="sortSelection(1)">
-					Size
-				</button>
-				<p>{{ searchValue }}</p>
-			</div>
-
+			<sort-buttons />
 		</div>
 
 		<!-- House Listings -->
@@ -30,6 +21,7 @@
 import AppButton from '@/components/AppButton.vue';
 import SearchField from '@/components/SearchField.vue';
 import HouseList from '../components/HouseList.vue';
+import SortButtons from '../components/SortButtons.vue';
 
 export default {
 	name: 'Home',
@@ -37,21 +29,7 @@ export default {
 		AppButton,
 		SearchField,
 		HouseList,
-	},
-	data() {
-		return {
-			buttonColors: ['var(--primary-color)', 'var(--tertiary-color-dark)'],
-			searchValue: '',
-		};
-	},
-	methods: {
-		// revert button color when opposite button is selected
-		sortSelection(index) {
-			const newButtonColors = ['var(--tertiary-color-dark)', 'var(--tertiary-color-dark)'];
-			newButtonColors[index] = 'var(--primary-color)';
-			this.buttonColors = newButtonColors;
-		},
-
+		SortButtons,
 	},
 };
 </script>
