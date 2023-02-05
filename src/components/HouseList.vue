@@ -1,6 +1,6 @@
 <template>
   <div class="house-listings-container">
-    <div v-for="{ id, image, location, price, rooms, size } in filteredHouses" :key="id" class="house-container">
+    <div v-for="{ id, image, location, price, rooms, size } in sortedHouses" :key="id" class="house-container">
       <div class="house-image-container">
         <img :src=image class="house-img" alt="House">
       </div>
@@ -27,7 +27,8 @@ import { mapState } from 'vuex'
 export default {
   name: 'HouseList',
   computed: {
-    ...mapState(['houses', 'searchValue']),
+    ...mapState(['houses', 'searchValue', 'activeSortButton']),
+
     //filter houses based on all the possible inputs (title, price, postal code, size, city)
     filteredHouses() {
       return this.houses.filter(house => {
@@ -39,6 +40,15 @@ export default {
           house.size.toString().toLowerCase().includes(this.searchValue.toLowerCase())
         );
       });
+    },
+    sortedHouses() {
+      const filteredHouses = this.filteredHouses;
+      if (this.activeSortButton === 0) {
+        return filteredHouses.sort((a, b) => a.price - b.price);
+      } else if (this.activeSortButton === 1) {
+        return filteredHouses.sort((a, b) => a.size - b.size);
+      }
+      return filteredHouses;
     }
   },
   methods: {
