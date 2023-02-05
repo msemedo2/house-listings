@@ -18,6 +18,10 @@
         </div>
       </div>
     </div>
+    <div v-show="sortedHouses.length === 0 && searchValue.length > 0" class="no-results-container">
+      <img src="../../assets/img_empty_houses@3x.png" alt="house" class="no-results-image">
+      <p>No results found.<br>Please try another keyword.</p>
+    </div>
   </div>
 </template>
 
@@ -41,6 +45,8 @@ export default {
         );
       });
     },
+
+    //sort house array based on the button clicked(price/size)
     sortedHouses() {
       const filteredHouses = this.filteredHouses;
       if (this.activeSortButton === 0) {
@@ -111,5 +117,19 @@ h2 {
 .info-icon {
   max-width: 25px;
   height: 80%;
+}
+
+.no-results-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 150px;
+}
+
+.no-results-image {
+  width: 300px;
+  margin-bottom: 30px;
 }
 </style>
