@@ -1,6 +1,6 @@
 <template>
   <div class="house-listings-container">
-    <div v-for="{ id, image, location, price, rooms, size } in houses" :key="id" class="house-container">
+    <div v-for="{ id, image, location, price, rooms, size } in filteredHouses" :key="id" class="house-container">
       <div class="house-image-container">
         <img :src=image class="house-img" alt="House">
       </div>
@@ -9,11 +9,11 @@
         <p>€ {{ separateWithDot(price) }}</p>
         <p class="city">{{ location.zip }} {{ location.city }}</p>
         <div class="house-info-container">
-          <img class="info-icon" src="../../public/assets/ic_bed@3x.png" alt="bed">
+          <img class="info-icon" src="../../assets/ic_bed@3x.png" alt="bed">
           <p>{{ rooms.bedrooms }}</p>
-          <img class="info-icon" src="../../public/assets/ic_bath@3x.png" alt="bed">
+          <img class="info-icon" src="../../assets/ic_bath@3x.png" alt="bed">
           <p>{{ rooms.bathrooms }}</p>
-          <img class="info-icon" src="../../public/assets/ic_size@3x.png" alt="bed">
+          <img class="info-icon" src="../../assets/ic_size@3x.png" alt="bed">
           <p>{{ size }} m2</p>
         </div>
       </div>
@@ -27,7 +27,19 @@ import { mapState } from 'vuex'
 export default {
   name: 'HouseList',
   computed: {
-    ...mapState(['houses'])
+    ...mapState(['houses', 'searchValue']),
+    //filter houses based on all the possible inputs (title, price, postal code, size, city)
+    filteredHouses() {
+      return this.houses.filter(house => {
+        return (
+          house.location.street.toLowerCase().includes(this.searchValue.toLowerCase()) ||
+          house.location.zip.toLowerCase().includes(this.searchValue.toLowerCase()) ||
+          house.location.city.toLowerCase().includes(this.searchValue.toLowerCase()) ||
+          house.price.toString().toLowerCase().includes(this.searchValue.toLowerCase()) ||
+          house.size.toString().toLowerCase().includes(this.searchValue.toLowerCase())
+        );
+      });
+    }
   },
   methods: {
     // Add dot separation on thousands for price
@@ -35,10 +47,6 @@ export default {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
   },
-  mounted() {
-    this.$store.dispatch('fetchHouses')
-  },
-
 };
 </script>
 
