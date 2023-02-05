@@ -5,6 +5,7 @@ export default createStore({
 	state: {
 		houses: [],
 		searchValue: '',
+		activeSortButton: '',
 	},
 	mutations: {
 		SET_HOUSES(state, houses) {
@@ -12,6 +13,9 @@ export default createStore({
 		},
 		UPDATE_SEARCH_VALUE(state, searchValue) {
 			state.searchValue = searchValue;
+		},
+		SET_ACTIVE_SORT_BUTTON(state, sortButton) {
+			state.activeSortButton = sortButton;
 		},
 	},
 	actions: {
@@ -32,6 +36,9 @@ export default createStore({
 		},
 		updateSearchValue({ commit }, searchValue) {
 			commit('UPDATE_SEARCH_VALUE', searchValue);
+		},
+		setActivateSortButton({ commit }, sortButton) {
+			commit('SET_ACTIVE_SORT_BUTTON', sortButton);
 		},
 	},
 });
