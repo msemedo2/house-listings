@@ -22,10 +22,9 @@ export default createStore({
 		// Fetch house Listings from the Api
 		fetchHouses({ commit }) {
 			const url = 'https://api.intern.d-tt.nl/api/houses';
-			const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 			const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
 			axios
-				.get(proxyUrl + url, {
+				.get(url, {
 					headers: {
 						'X-Api-Key': API_KEY,
 					},
