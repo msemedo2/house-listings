@@ -1,8 +1,7 @@
 <template>
-	<button class="create-btn">
+	<router-link class="create-link" :to="{ name: 'manage' }">Create new
 		<img class="plus" src="../../assets/ic_plus_white@3x.png" />
-		Create new
-	</button>
+	</router-link>
 </template>
 
 <script>
@@ -12,8 +11,11 @@ export default {
 </script>
 
 <style scoped>
-.create-btn {
+.create-link {
+	display: flex;
+	flex-direction: row-reverse;
 	font-size: var(--fs-buttons);
+	font-weight: var(--fw-bold);
 	background-color: var(--primary-color);
 	color: #fff;
 	border-radius: 8px;
@@ -23,8 +25,7 @@ export default {
 
 .plus {
 	width: 20px;
-	position: relative;
-	top: 3px;
+	height: 95%;
 	margin-right: 10px;
 }
 </style>

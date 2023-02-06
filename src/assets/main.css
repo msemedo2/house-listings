@@ -31,7 +31,8 @@ button {
 	color: #fff;
 }
 
-input {
+input,
+textarea {
 	border: none;
 	background-color: var(--tertiary-color-light);
 	color: var(--f-secondary-color);
@@ -41,6 +42,7 @@ input {
 	outline: none;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
 	color: var(--tertiary-color-dark);
 }
