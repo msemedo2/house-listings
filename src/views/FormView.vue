@@ -20,12 +20,15 @@
         <label for="postal-code" class="input-title">Postal code*</label>
         <input type="text" placeholder="e.g. 1000 AA">
         <label for="city" class="input-title">City*</label>
-        <input type="text" placeholder="e.g. Ultrecht">
+        <input type="text" placeholder="e.g. Utrecht">
         <!-- upload picture -->
         <label for="upload-picture" class="input-title">Upload picture(PNG or JPG)*</label>
-        <div class="upload-picture-container">
-          <input type="file" class="upload-input">
-          <img src="../../assets/ic_upload@3x.png" alt="plus" class="plus">
+        <div class="upload-picture-container" :style="{ border: uploadedImage !== '' ? 'none' : null }">
+          <input type="file" class="upload-input" accept="image/jpeg, image/png" @change="uploadImage"
+            ref="uploadInput">
+          <img v-show="uploadedImage === ''" :src="plusImage" alt="plus" class="plus" @click="triggerUploadInput">
+          <img v-show="uploadedImage !== ''" :src="uploadedImage" alt="uploaded image" class="upload-image"
+            @click="triggerUploadInput">
         </div>
         <label for="price" class="input-title">Price*</label>
         <input type="text" placeholder="e.g. €150.000">
@@ -64,13 +67,29 @@
 <script>
 export default {
   name: 'FormView',
+  data() {
+    return {
+      plusImage: '../../assets/ic_upload@3x.png',
+      uploadedImage: '',
+    }
+  },
+  methods: {
+    triggerUploadInput() {
+      this.$refs.uploadInput.click();
+    },
+    uploadImage(e) {
+      // it will only upload image if file chosen
+      if (e.target.files.length !== 0) {
+        this.uploadedImage = URL.createObjectURL(e.target.files[0]);
+      }
+    }
+  }
 };
 </script>
 
 <style scoped>
 .container {
-  background-image: url('../../public/assets/img_background@3x.png');
-  /* background-position: right top; */
+  background-image: url('../../assets/img_background@3x.png');
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
@@ -142,11 +161,23 @@ input[type="text"] {
 
 .plus {
   width: 30px;
+
+}
+
+.upload-image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  margin: 0;
+}
+
+.plus,
+.upload-image {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  cursor: pointer;
 }
 
 .upload-input {
@@ -154,6 +185,10 @@ input[type="text"] {
   width: 100%;
   cursor: pointer;
   opacity: 0;
+}
+
+::-webkit-file-upload-button {
+  cursor: pointer;
 }
 
 textarea {
