@@ -4,7 +4,13 @@
     <div class="selected-house-container">
       <img :src="selectedHouse.image" alt="house image">
       <div class="house-info-container">
-        <h2>{{ selectedHouse.location.street }}</h2>
+        <div class="header-container">
+          <h2>{{ selectedHouse.location.street }}</h2>
+          <div>
+            <!-- Edit / Delete Button -->
+            <edit-button :id="id" />
+          </div>
+        </div>
         <div class="house-info">
           <img src="../../assets/ic_location@3x.png" alt="location icon" class="icon">
           <p>{{ selectedHouse.location.zip }}</p>
@@ -34,12 +40,14 @@
 
 <script>
 import BackButton from '../components/BackButton.vue';
+import EditButton from '../components/EditButton.vue';
 import { mapState } from 'vuex'
 
 export default {
   name: 'HouseDetail',
   components: {
     BackButton,
+    EditButton,
   },
   data() {
     return {
@@ -53,15 +61,23 @@ export default {
       return this.houses.find(house => house.id === parseInt(this.id));
     },
   },
+  methods: {
+    setSelectedHouseId() {
+      this.$store.dispatch('setSelectedHouseId', this.id)
+    }
+  },
   mounted() {
-    console.log('id:', this.id)
-    console.log('houses:', this.houses)
-    console.log('selectedHouse:', this.selectedHouse)
+    this.setSelectedHouseId()
   }
 }
 </script>
 
 <style scoped>
+.header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .house-detail-container {
   margin: 0 auto;
   height: 100vh;
@@ -69,7 +85,6 @@ export default {
   padding: 80px 0;
   width: 90%;
   font-family: var(--ff-primary);
-  /* font-weight: var(--fw-semibold); */
   font-size: 16px;
 }
 
