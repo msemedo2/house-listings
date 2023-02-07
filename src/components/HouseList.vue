@@ -3,7 +3,8 @@
     <h2 v-show="sortedHouses.length < houses.length && sortedHouses.length !== 0" class="houses-found">{{
       sortedHouses.length
     }} houses found</h2>
-    <div v-for="{ id, image, location, price, rooms, size } in sortedHouses" :key="id" class="house-container">
+    <router-link :to="{ path: `/house/${id}` }" v-for="{ id, image, location, price, rooms, size } in sortedHouses"
+      :key="id" class="house-container">
       <div class="house-image-container">
         <img :src=image class="house-img" alt="House">
       </div>
@@ -20,7 +21,7 @@
           <p>{{ size }} m2</p>
         </div>
       </div>
-    </div>
+    </router-link>
     <div v-show="sortedHouses.length === 0 && searchValue.length > 0" class="no-results-container">
       <img src="../../assets/img_empty_houses@3x.png" alt="house" class="no-results-image">
       <p>No results found.<br>Please try another keyword.</p>
@@ -64,8 +65,9 @@ export default {
     // Add dot separation on thousands for price
     separateWithDot(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
+    },
   },
+
 };
 </script>
 
