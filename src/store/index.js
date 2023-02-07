@@ -22,8 +22,10 @@ export default createStore({
 		SET_SELECTED_HOUSE_ID(state, selectedHouseId) {
 			state.selectedHouseId = selectedHouseId;
 		},
+		DELETE_LISTING(state, selectedHouseId) {
+			state.selectedHouseId = selectedHouseId;
+		},
 	},
-
 	actions: {
 		// Fetch house Listings from the Api
 		fetchHouses({ commit }) {
@@ -38,6 +40,25 @@ export default createStore({
 				})
 				.then((res) => {
 					commit('SET_HOUSES', res.data);
+				});
+		},
+
+		deleteListing() {
+			const url = `https://api.intern.d-tt.nl/api/houses/${this.state.selectedHouseId}`;
+			const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
+
+			axios
+				.delete(url, {
+					headers: {
+						'X-Api-Key': API_KEY,
+					},
+				})
+				.then((res) => {
+					console.log(res.data);
+					console.log(`${this.state.selectedHouseId} deleted`);
+				})
+				.catch((err) => {
+					console.log(err);
 				});
 		},
 
