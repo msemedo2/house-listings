@@ -1,15 +1,24 @@
 <template>
   <div class="house-listings-container">
+    <!-- <edit-button /> -->
     <h2 v-show="sortedHouses.length < houses.length && sortedHouses.length !== 0" class="houses-found">{{
       sortedHouses.length
     }} houses found</h2>
-    <router-link :to="{ path: `/house/${id}` }" v-for="{ id, image, location, price, rooms, size } in sortedHouses"
-      :key="id" class="house-container">
+    <router-link :to="{ path: `/house/${id}` }"
+      v-for="{ id, image, location, price, rooms, size, madeByMe } in sortedHouses" :key="id" class="house-container">
       <div class="house-image-container">
         <img :src=image class="house-img" alt="House">
       </div>
       <div class="house-location-container">
-        <h2>{{ location.street }}</h2>
+        <div class="house-header-container">
+          <h2>{{ location.street }}</h2>
+          <!-- Check if house was made by the user and only render edit and delete button if true -->
+          <div v-show="!madeByMe === false" class="buttons-container">
+            <img src="../../assets/ic_edit@3x.png" alt="location icon" class="edit-icon">
+            <img src="../../assets/ic_delete@3x.png" alt="location icon" class="delete-icon "
+              @click.prevent="deleteListing(id)">
+          </div>
+        </div>
         <p>€ {{ separateWithDot(price) }}</p>
         <p class="city">{{ location.zip }} {{ location.city }}</p>
         <div class="house-info-container">
@@ -66,8 +75,14 @@ export default {
     separateWithDot(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
+    setSelectedHouseId(id) {
+      this.$store.dispatch('setSelectedHouseId', id)
+    },
+    deleteListing(id) {
+      this.setSelectedHouseId(id)
+      this.$store.dispatch('deleteListing')
+    },
   },
-
 };
 </script>
 
@@ -81,6 +96,7 @@ export default {
 }
 
 .house-container {
+  max-width: 1400px;
   background-color: var(--bg-color-light);
   padding: 10px;
   border-radius: 10px;
@@ -104,9 +120,22 @@ export default {
 }
 
 .house-location-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.house-header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete-icon,
+.edit-icon {
+  width: 15px;
+  margin: 10px 15px 0 0;
+  cursor: pointer;
 }
 
 h2 {
