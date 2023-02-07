@@ -1,8 +1,7 @@
 <template>
   <form @submit="postData" class="container">
     <div class="form-container">
-      <router-link class="go-back-container" :to="{ name: 'home' }"><img class="arrow-image"
-          src="../../assets/ic_back_grey@3x.png" alt="back arrow">Back to overview</router-link>
+      <back-button />
       <h1>Create new listing</h1>
       <div class="form-input-container">
 
@@ -34,13 +33,12 @@
 
         <!-- Upload Picture -->
         <label for="upload-picture" class="input-title">Upload picture(PNG or JPG)*</label>
-        <div class="upload-picture-container" :style="{ border: listing.uploadedImage !== '' ? 'none' : null }">
+        <div class="upload-picture-container" :style="{ border: uploadedImage !== '' ? 'none' : null }">
           <input type="file" class="upload-input" accept="image/jpeg, image/png" @change="uploadImage"
             ref="uploadInput">
-          <img v-show="listing.uploadedImage === ''" :src="plusImage" alt="plus" class="plus"
+          <img v-show="uploadedImage === ''" :src="plusImage" alt="plus" class="plus" @click="triggerUploadInput">
+          <img v-show="uploadedImage !== ''" :src="uploadedImage" alt="uploaded image" class="upload-image"
             @click="triggerUploadInput">
-          <img v-show="listing.uploadedImage !== ''" :src="listing.uploadedImage" alt="uploaded image"
-            class="upload-image" @click="triggerUploadInput">
         </div>
 
         <!-- Price -->
@@ -86,7 +84,7 @@
 
         <!-- Submit Button -->
         <div class="submit-button-container">
-          <button class="submit-button" type="submit">Post</button>
+          <button class="submit-button" type="submit" @click="postHouse">Post</button>
         </div>
       </div>
     </div>
@@ -94,13 +92,18 @@
 </template>
 
 <script>
+import BackButton from '../components/BackButton.vue'
+import { mapState } from 'vuex';
+import axios from 'axios';
+
 export default {
+
   name: 'FormView',
   data() {
     return {
       plusImage: '../../assets/ic_upload@3x.png',
+      uploadedImage: '',
       listing: {
-        uploadedImage: '',
         price: '',
         bedrooms: '',
         bathrooms: '',
@@ -116,6 +119,12 @@ export default {
       }
     }
   },
+  components: {
+    BackButton,
+  },
+  computed: {
+    ...mapState(['houses'])
+  },
   methods: {
     triggerUploadInput() {
       this.$refs.uploadInput.click();
@@ -123,12 +132,30 @@ export default {
     uploadImage(e) {
       // it will only upload image if file chosen
       if (e.target.files.length !== 0) {
-        this.listing.uploadedImage = URL.createObjectURL(e.target.files[0]);
+        this.uploadedImage = URL.createObjectURL(e.target.files[0]);
       }
     },
-    postData(e) {
+    setListingInfo() {
+      this.$store.dispatch('setListingInfo', this.listing)
+    },
+    postHouse(e) {
       e.preventDefault();
-      console.log(this.listing)
+      const url = 'https://api.intern.d-tt.nl/api/houses';
+      const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
+      const data = this.listing;
+      console.log(data);
+      axios
+        .post(url, data, {
+          headers: {
+            'X-Api-Key': API_KEY,
+          },
+        })
+        .then((res) => {
+          this.houses = [...this.houses, res.data]
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
 };
