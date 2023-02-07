@@ -22,8 +22,9 @@ export default createStore({
 		SET_SELECTED_HOUSE_ID(state, selectedHouseId) {
 			state.selectedHouseId = selectedHouseId;
 		},
-		DELETE_LISTING(state, selectedHouseId) {
-			state.selectedHouseId = selectedHouseId;
+		UPDATE_HOUSES_ARRAY(state, houses) {
+			state.houses = houses;
+			console.log('updated');
 		},
 	},
 	actions: {
@@ -40,11 +41,15 @@ export default createStore({
 				})
 				.then((res) => {
 					commit('SET_HOUSES', res.data);
+					console.log(res.data);
+				})
+				.catch((err) => {
+					console.error(err);
 				});
 		},
 
-		deleteListing() {
-			const url = `https://api.intern.d-tt.nl/api/houses/${this.state.selectedHouseId}`;
+		deleteListing({ state, commit }) {
+			const url = `https://api.intern.d-tt.nl/api/houses/${state.selectedHouseId}`;
 			const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
 
 			axios
@@ -53,9 +58,12 @@ export default createStore({
 						'X-Api-Key': API_KEY,
 					},
 				})
-				.then((res) => {
-					console.log(res.data);
-					console.log(`${this.state.selectedHouseId} deleted`);
+				.then(() => {
+					// filter the house that was deleted and update houses array - rerendering
+					const updatedHouses = state.houses.filter(
+						(house) => house.id !== state.selectedHouseId
+					);
+					commit('UPDATE_HOUSES_ARRAY', updatedHouses);
 				})
 				.catch((err) => {
 					console.log(err);
