@@ -16,7 +16,7 @@
           <div v-show="!madeByMe === false" class="buttons-container">
             <img src="../../assets/ic_edit@3x.png" alt="location icon" class="edit-icon">
             <img src="../../assets/ic_delete@3x.png" alt="location icon" class="delete-icon "
-              @click.prevent="deleteListing(id)">
+              @click.prevent="setActiveModal(id), setSelectedHouseId(id)">
           </div>
         </div>
         <p>€ {{ separateWithDot(price) }}</p>
@@ -68,7 +68,8 @@ export default {
         return filteredHouses.sort((a, b) => a.size - b.size);
       }
       return filteredHouses;
-    }
+    },
+
   },
   methods: {
     // Add dot separation on thousands for price
@@ -77,12 +78,16 @@ export default {
     },
     setSelectedHouseId(id) {
       this.$store.dispatch('setSelectedHouseId', id)
+      console.log(id)
     },
-    deleteListing(id) {
-      this.setSelectedHouseId(id)
-      this.$store.dispatch('deleteListing')
+    setActiveModal() {
+      this.$store.dispatch('setActiveModal', true)
+
+      // this.setSelectedHouseId(id)
+      // this.$store.dispatch('deleteListing')
     },
   },
+
 };
 </script>
 
