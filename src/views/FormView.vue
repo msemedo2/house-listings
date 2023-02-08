@@ -8,16 +8,16 @@
         <!-- Street Name -->
         <label for="street-name" class="input-title">Street name*</label>
         <input type="text" name="streetName" placeholder="Enter the street name" v-model="listing.streetName"
-          :class="{ 'error': isFieldRequired }">
-        <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+          :class="{ 'error': missingFields.includes('streetName') }">
+        <span v-if="missingFields.includes('streetName')" class="error-message">Required field is missing.</span>
         <div class="house-info-container">
 
           <!-- House Number -->
           <div class="house-info">
             <label for="house-number" class="input-title">House number*</label>
             <input type="text" name="houseNumber" placeholder="Enter house number" v-model="listing.houseNumber"
-              :class="{ 'error': isFieldRequired }">
-            <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+              :class="{ 'error': missingFields.includes('houseNumber') }">
+            <span v-if="missingFields.includes('houseNumber')" class="error-message">Required field is missing.</span>
           </div>
 
           <!-- Additional -->
@@ -30,47 +30,48 @@
         <!-- Zip -->
         <label for="postal-code" class="input-title">Postal code*</label>
         <input type="text" name="zip" placeholder="e.g. 1000 AA" v-model="listing.zip"
-          :class="{ 'error': isFieldRequired }">
-        <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+          :class="{ 'error': missingFields.includes('zip') }">
+        <span v-if="missingFields.includes('zip')" class="error-message">Required field is missing.</span>
 
         <!-- City -->
         <label for="city" class="input-title">City*</label>
         <input type="text" name="city" placeholder="e.g. Utrecht" v-model="listing.city"
-          :class="{ 'error': isFieldRequired }">
-        <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+          :class="{ 'error': missingFields.includes('city') }">
+        <span v-if="missingFields.includes('city')" class="error-message">Required field is missing.</span>
 
         <!-- Upload Picture -->
         <label for="upload-picture" class="input-title">Upload picture(PNG or JPG)*</label>
-        <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
         <div class="upload-picture-container" :style="{ border: displayImage !== '' ? 'none' : null }">
           <input type="file" class="upload-input" accept="image/jpeg, image/png" @change="uploadImage" ref="uploadInput"
-            :class="{ 'error': isFieldRequired }">
+            name="displayImage" :class="{ 'error': missingFields.includes('displayImage') }">
           <img v-show="uploadedImage === ''" :src="plusImage" alt="plus" class="plus" @click="triggerUploadInput">
           <img v-show="displayImage !== ''" :src="displayImage" alt="uploaded image" class="display-image"
             @click="triggerUploadInput">
         </div>
+        <span v-if="missingFields.includes('displayImage')" class="error-message">Required field is missing.</span>
 
         <!-- Price -->
         <label for="price" class="input-title">Price*</label>
         <input type="text" name="price" placeholder="e.g. €150.000" v-model="listing.price"
-          :class="{ 'error': isFieldRequired }">
-        <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+          :class="{ 'error': missingFields.includes('price') }">
+        <span v-if="missingFields.includes('price')" class="error-message">Required field is missing.</span>
         <div class="house-info-container">
           <div class="house-input">
 
             <!-- Size -->
             <label for="size" class="input-title">Size*</label>
-            <input type="text" name="size" placeholder="e.g. 60m2" v-model="listing.size"
-              :class="{ 'error': isFieldRequired }">
-            <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+            <input type="text" name="size" placeholder="e.g. 60m2" v-model="listing.size" class="size"
+              :class="{ 'error': missingFields.includes('size') }">
+            <span v-if="missingFields.includes('size')" class="error-message">Required field is missing.</span>
           </div>
 
           <!-- Garage -->
+
           <div class="house-input">
             <label for="garage" class="input-title">Garage*</label>
             <input type="number" name="hasGarage" placeholder="Select" min="0" max="1" v-model="listing.hasGarage"
-              :class="{ 'error': isFieldRequired }">
-            <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+              :class="{ 'error': missingFields.includes('hasGarage') }" class="garage">
+            <span v-if="missingFields.includes('hasGarage')" class="error-message">Value must be 0 or 1</span>
           </div>
         </div>
         <div class="house-info-container">
@@ -79,30 +80,30 @@
             <!-- Bedrooms -->
             <label for="bedrooms" class="input-title">Bedrooms*</label>
             <input type="text" name="bedrooms" placeholder="Enter amount" v-model="listing.bedrooms"
-              :class="{ 'error': isFieldRequired }">
-            <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+              :class="{ 'error': missingFields.includes('bedrooms') }">
+            <span v-if="missingFields.includes('bedrooms')" class="error-message">Required field is missing.</span>
           </div>
           <div class="house-input">
 
             <!-- Bathrooms -->
             <label for="bathrooms" class="input-title">Bathrooms*</label>
             <input type="text" name="bathrooms" placeholder="Enter amount" v-model="listing.bathrooms"
-              :class="{ 'error': isFieldRequired }">
-            <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+              :class="{ 'error': missingFields.includes('bathrooms') }">
+            <span v-if="missingFields.includes('bathrooms')" class="error-message">Required field is missing.</span>
           </div>
         </div>
 
         <!-- Construction Date -->
         <label for="construction-date" class="input-title">Construction date*</label>
         <input type="text" name="constructionYear" placeholder="e.g. 1990" v-model="listing.constructionYear"
-          :class="{ 'error': isFieldRequired }">
-        <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+          :class="{ 'error': missingFields.includes('constructionYear') }">
+        <span v-if="missingFields.includes('constructionYear')" class="error-message">Required field is missing.</span>
 
         <!-- Description -->
         <label for="description" class="input-title">Description*</label>
         <textarea name="description" cols="30" rows="7" placeholder="Enter description" v-model="listing.description"
-          :class="{ 'error': isFieldRequired }"></textarea>
-        <span v-if="isFieldRequired" class="error-message">Required field is missing.</span>
+          :class="{ 'error': missingFields.includes('description') }"></textarea>
+        <span v-if="missingFields.includes('description')" class="error-message">Required field is missing.</span>
 
         <!-- Submit Button -->
         <div class="submit-button-container">
@@ -141,6 +142,7 @@ export default {
         description: '',
       },
       isFieldRequired: false,
+      missingFields: [],
     }
   },
   components: {
@@ -171,23 +173,26 @@ export default {
 
     checkRequiredFields(e) {
       e.preventDefault();
+      this.missingFields = []
       const requiredFields = Object.entries(this.listing);
       for (const [field, value] of requiredFields) {
         if (field === 'numberAddition') continue;
-        if (!value && field !== 'hasGarage') {
-          this.isFieldRequired = true;
-          return;
+        if (!value) {
+          this.missingFields.push(field);
         }
         if (field === 'hasGarage' && (value !== 0 && value !== 1)) {
-          console.error(`The ${field} field must be 0 or 1`);
-          return;
-        }
-        if (!this.displayImage) {
-          console.error(`The displayImage field is required`);
-          return;
+          this.missingFields.push(field);
+          console.log((field === 'hasGarage' && (value !== 0 || value !== 1)));
         }
       }
-      this.postHouse()
+      if (!this.displayImage) {
+        this.missingFields.push('displayImage');
+      }
+      if (this.missingFields.length === 0) {
+        this.postHouse()
+        console.log(this.missingFields)
+      }
+      console.log(this.missingFields)
     },
 
     postImage(id) {
@@ -246,7 +251,6 @@ export default {
 
 .form-container {
   margin: 0 auto;
-  height: 100vh;
   max-width: 1400px;
   padding: 80px 0;
   width: 90%;
@@ -342,6 +346,11 @@ input[type=number]::-webkit-inner-spin-button {
 
 ::-webkit-file-upload-button {
   cursor: pointer;
+}
+
+.garage,
+.size {
+  width: 183px;
 }
 
 textarea {
