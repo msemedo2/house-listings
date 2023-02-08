@@ -22,6 +22,7 @@ header {
 	height: 55px;
 	background-color: white;
 	position: fixed;
+	z-index: 10;
 }
 
 .navbar {
