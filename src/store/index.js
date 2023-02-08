@@ -7,6 +7,7 @@ export default createStore({
 		searchValue: '',
 		activeSortButton: '',
 		selectedHouseId: '',
+		activeModal: false,
 	},
 
 	mutations: {
@@ -25,6 +26,9 @@ export default createStore({
 		UPDATE_HOUSES_ARRAY(state, houses) {
 			state.houses = houses;
 			console.log('updated');
+		},
+		SET_ACTIVE_MODAL(state, activeModal) {
+			state.activeModal = activeModal;
 		},
 	},
 	actions: {
@@ -80,6 +84,10 @@ export default createStore({
 
 		setSelectedHouseId({ commit }, selectedHouseId) {
 			commit('SET_SELECTED_HOUSE_ID', selectedHouseId);
+		},
+
+		setActiveModal({ commit }, activeModal) {
+			commit('SET_ACTIVE_MODAL', activeModal);
 		},
 	},
 });
