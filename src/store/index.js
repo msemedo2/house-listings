@@ -8,6 +8,7 @@ export default createStore({
 		activeSortButton: '',
 		selectedHouseId: '',
 		activeModal: false,
+		listing: {},
 	},
 
 	mutations: {
@@ -25,10 +26,15 @@ export default createStore({
 		},
 		UPDATE_HOUSES_ARRAY(state, houses) {
 			state.houses = houses;
-			console.log('updated');
 		},
 		SET_ACTIVE_MODAL(state, activeModal) {
 			state.activeModal = activeModal;
+		},
+		SET_LISTING(state, listing) {
+			state.listing = listing;
+		},
+		ADD_HOUSE(state, house) {
+			state.houses.push(house);
 		},
 	},
 	actions: {
@@ -45,7 +51,6 @@ export default createStore({
 				})
 				.then((res) => {
 					commit('SET_HOUSES', res.data);
-					console.log(res.data);
 				})
 				.catch((err) => {
 					console.error(err);
@@ -88,6 +93,17 @@ export default createStore({
 
 		setActiveModal({ commit }, activeModal) {
 			commit('SET_ACTIVE_MODAL', activeModal);
+		},
+
+		setListing({ state, commit }, selectedHouseIds) {
+			const listing = state.houses.find(
+				(house) => house.id === selectedHouseIds
+			);
+			commit('SET_LISTING', listing);
+		},
+
+		addHouse({ commit }, house) {
+			commit('ADD_HOUSE', house);
 		},
 	},
 });
