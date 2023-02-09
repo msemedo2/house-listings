@@ -1,5 +1,5 @@
 <template>
-	<router-link class="create-link" :to="{ name: 'manage' }">Create new
+	<router-link class="create-link" :to="{ name: 'create' }">Create new
 		<img class="plus" src="../../assets/ic_plus_white@3x.png" />
 	</router-link>
 </template>
