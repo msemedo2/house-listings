@@ -2,13 +2,15 @@
   <div class="house-detail-container">
     <back-button />
     <div class="selected-house-container">
-      <img :src="selectedHouse.image" alt="house image">
+      <div class="image-container">
+        <img :src="selectedHouse.image" alt="house image" class="image">
+      </div>
       <div class="house-info-container">
         <div class="header-container">
           <h2>{{ selectedHouse.location.street }}</h2>
           <div>
             <!-- Edit / Delete Button -->
-            <edit-button :id="id" />
+            <edit-button />
           </div>
         </div>
         <div class="house-info">
@@ -56,18 +58,23 @@ export default {
     }
   },
   computed: {
-    ...mapState(['houses']),
+    ...mapState(['houses', 'listing']),
     selectedHouse() {
       return this.houses.find(house => house.id === parseInt(this.id));
     },
+
   },
   methods: {
     setSelectedHouseId() {
       this.$store.dispatch('setSelectedHouseId', this.id)
-    }
+    },
+    setListing() {
+      this.$store.dispatch('setListing', parseInt(this.$store.state.selectedHouseId));
+    },
   },
   mounted() {
     this.setSelectedHouseId()
+    this.setListing()
   }
 }
 </script>
@@ -76,6 +83,12 @@ export default {
 .header-container {
   display: flex;
   justify-content: space-between;
+}
+
+.image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .house-detail-container {
@@ -90,13 +103,14 @@ export default {
 
 .selected-house-container {
   margin-top: 25px;
+  /* display: inline-block */
 }
 
 .house-info-container {
   background-color: var(--bg-color-light);
   padding: 30px;
   margin-top: -10px;
-  width: 100%;
+  max-width: 100%;
 }
 
 .house-info {
