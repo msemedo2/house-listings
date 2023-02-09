@@ -34,11 +34,6 @@ export default {
       this.$store.dispatch('setActiveModal', false)
 
       this.$router.push({ path: '/' })
-      // this.$router.go()
-
-      // this.$store.dispatch('deleteListing')
-      // this.$store.dispatch('setActiveModal', false)
-      // this.$router.push({ path: '/' })
     }
   },
 
