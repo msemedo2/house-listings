@@ -40,6 +40,7 @@ export default {
     ...mapState(['listing'])
   },
   methods: {
+    // api post request to create new listing based on the information filled in the listingForm
     postHouse(updatedHouseInfo, uploadedImage) {
       const url = 'https://api.intern.d-tt.nl/api/houses';
       const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
@@ -62,6 +63,7 @@ export default {
 
     },
 
+    // api post request to set the image on the created house, based on the id generated
     postImage(id, uploadedImage) {
       const imgUrl = `https://api.intern.d-tt.nl/api/houses/${id}/upload`;
       const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
@@ -86,7 +88,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

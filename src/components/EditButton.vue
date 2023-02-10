@@ -1,4 +1,5 @@
 <template>
+  <!-- only show edit and delete button on houseDetail page if created by me -->
   <div v-show="!listing.madeByMe === false" class="buttons-container">
     <router-link :to="{ path: `/edit-listing/${selectedHouseId}` }">
       <img :src="editButton" alt="location icon" class="edit-icon" @click="setListing">

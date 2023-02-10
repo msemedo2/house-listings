@@ -20,16 +20,18 @@ export default {
     return {
       title: 'Edit listing',
       button: 'Save',
-      houseInfo: null,
+      houseInfo: {},
       image: '',
       backButtonImage: '../../assets/ic_back_grey@3x.png'
     }
   },
+  // based on the house id in store, format the information that is passed as props to populate the listingForm component
   mounted() {
     if (this.selectedHouseId) {
       this.formatListing();
     }
   },
+  // reenforce the formatting if there is a change in the id
   watch: {
     listing() {
       if (this.selectedHouseId) {
@@ -39,11 +41,13 @@ export default {
   },
   methods: {
     formatListing() {
+      // separate the value saved in store listing.location.street, into streeName and houseNumber
       const street = this.listing.location.street;
       const streetParts = street.split(" ");
       const houseNumber = parseInt(streetParts.pop());
       const streetName = streetParts.join(" ");
 
+      // convert hasGarage to 1 or two depending on the value
       let hasGarage = 0
       this.listing.hasGarage === true ? hasGarage === 1 : hasGarage === 0
 
@@ -64,6 +68,7 @@ export default {
       this.image = this.listing.image
     },
 
+    // api post request to edit the information of the listing
     editHouse(updatedHouseInfo, uploadedImage) {
       const url = `https://api.intern.d-tt.nl/api/houses/${this.selectedHouseId}`;
       const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
@@ -85,6 +90,7 @@ export default {
 
     },
 
+    // api post request to update the image of the respective house
     postImage(uploadedImage) {
       const imgUrl = `https://api.intern.d-tt.nl/api/houses/${this.selectedHouseId}/upload`;
       const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
@@ -110,7 +116,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-
-</style>

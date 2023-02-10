@@ -38,7 +38,7 @@ export default createStore({
 		},
 	},
 	actions: {
-		// Fetch house Listings from the Api
+		// api get request to fetch house listings
 		fetchHouses({ commit }) {
 			const url = 'https://api.intern.d-tt.nl/api/houses';
 			const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';

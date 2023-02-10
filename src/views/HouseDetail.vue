@@ -9,7 +9,7 @@
         <div class="header-container">
           <h2>{{ selectedHouse.location.street }}</h2>
           <div>
-            <!-- Edit / Delete Button -->
+            <!-- edit / delete button -->
             <edit-button :deleteButton="deleteButton" :editButton="editButton" />
           </div>
         </div>
@@ -71,9 +71,12 @@ export default {
     setSelectedHouseId() {
       this.$store.dispatch('setSelectedHouseId', this.id)
     },
+
     setListing() {
       this.$store.dispatch('setListing', parseInt(this.$store.state.selectedHouseId));
     },
+
+    // passing backButtonImage as props depending on the screen size
     checkScreenSize() {
       if (window.innerWidth < 501) {
         this.backButtonImage = '../../assets/ic_back_white@3x.png'
@@ -86,6 +89,7 @@ export default {
       }
     }
   },
+
   mounted() {
     this.setSelectedHouseId()
     this.setListing()

@@ -25,6 +25,5 @@ export default {
   .back-text {
     display: none;
   }
-
 }
 </style>

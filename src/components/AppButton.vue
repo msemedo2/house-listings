@@ -1,7 +1,9 @@
 <template>
+	<!-- desktop create new listing button -->
 	<router-link class="create-link" :to="{ name: 'create' }">Create new
 		<img class="plus" src="../../assets/ic_plus_white@3x.png" />
 	</router-link>
+	<!-- mobile create new listing button -->
 	<router-link class="small-plus" :to="{ name: 'create' }">
 		<img class="create-plus" src="../../assets/ic_plus_grey@3x.png" />
 	</router-link>

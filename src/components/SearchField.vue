@@ -14,7 +14,7 @@ export default {
 			searchValue: '',
 		}
 	},
-	//update search value in store
+	// update search value in vuex store
 	methods: {
 		updateSearchValue() {
 			this.$store.dispatch('updateSearchValue', this.searchValue)

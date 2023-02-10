@@ -1,11 +1,13 @@
 <template>
 	<header>
 		<nav class="navbar">
+			<!-- desktop navbar -->
 			<img src="../../assets/img_logo_dtt@3x.png" alt="logo" sizes class="logo" />
 			<ul class="nav-link-container">
 				<router-link class="nav-link" :to="{ name: 'home' }">Houses</router-link>
 				<router-link class="nav-link" :to="{ name: 'about' }">About</router-link>
 			</ul>
+			<!-- mobile navbar -->
 			<ul class="link-container">
 				<router-link :to="{ name: 'home' }">
 					<img :src="imageHomeSource" @click="changeHomeImage" alt="home image" class="home-icon">
@@ -32,12 +34,13 @@ export default {
 	created() {
 		this.checkRoute();
 	},
-	//watch for changes in the route. If the page is reloaded on another route besides the home route, it will keep the correct image active
+	// watch for changes in the route. If the page is reloaded on another route besides the home route, it will keep the correct image active
 	watch: {
 		$route() {
 			this.checkRoute();
 		},
 	},
+
 	methods: {
 		checkRoute() {
 			if (this.$route.path === "/") {
@@ -48,6 +51,7 @@ export default {
 				this.imageAboutSource = this.activeInfoImage;
 			}
 		},
+		// render correct image based on the active route	
 		changeHomeImage() {
 			if (this.$route.path === "/about") {
 				this.imageHomeSource = this.activeHomeImage;

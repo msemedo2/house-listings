@@ -20,6 +20,7 @@ export default {
       activeModal: false,
     }
   },
+  // watch the activeModal state value to effectively close the modal when it is false
   watch: {
     '$store.state.activeModal': function (newValue) {
       this.activeModal = newValue
@@ -32,7 +33,6 @@ export default {
     deleteListing() {
       this.$store.dispatch('deleteListing')
       this.$store.dispatch('setActiveModal', false)
-
       this.$router.push({ path: '/' })
     }
   },

@@ -30,6 +30,7 @@ export default {
       newButtonColors[index] = 'var(--primary-color)';
       this.buttonColors = newButtonColors;
     },
+
     //send the index of the button clicked to be saved in the store global state
     setActiveSortButton(index) {
       this.$store.dispatch('setActivateSortButton', index);

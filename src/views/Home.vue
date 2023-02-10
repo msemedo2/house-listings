@@ -1,18 +1,18 @@
 <template>
 	<div class="home-container">
-		<!--Header -->
+		<!--header -->
 		<div class="header-container">
 			<h1>Houses</h1>
 			<app-button />
 		</div>
 
-		<!-- Search Field, Price / Size Sort option -->
+		<!-- search field, price / size sort option -->
 		<div class="options-container">
 			<search-field />
 			<sort-buttons />
 		</div>
 
-		<!-- House Listings -->
+		<!-- house listings -->
 		<house-list />
 	</div>
 </template>

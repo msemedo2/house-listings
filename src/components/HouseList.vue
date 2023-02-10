@@ -1,9 +1,10 @@
 <template>
   <div class="house-listings-container">
-    <!-- <edit-button /> -->
+    <!-- show number of search result matching -->
     <h2 v-show="sortedHouses.length < houses.length && sortedHouses.length !== 0" class="houses-found">{{
       sortedHouses.length
     }} houses found</h2>
+    <!-- loop through sortedHouses array to display the house listings -->
     <router-link :to="{ path: `/house/${id}` }" @click="setListing(id)"
       v-for="{ id, image, location, price, rooms, size, madeByMe } in sortedHouses" :key="id" class="house-container">
       <div class="house-image-container">
@@ -33,6 +34,7 @@
         </div>
       </div>
     </router-link>
+    <!-- show no results image/message if there are no matches -->
     <div v-show="sortedHouses.length === 0 && searchValue.length > 0" class="no-results-container">
       <img src="../../assets/img_empty_houses@3x.png" alt="house" class="no-results-image">
       <p>No results found.<br>Please try another keyword.</p>
@@ -48,7 +50,8 @@ export default {
   computed: {
     ...mapState(['houses', 'searchValue', 'activeSortButton']),
 
-    //filter houses based on all the possible inputs (title, price, postal code, size, city)
+    // filter houses based on all the possible inputs (title, price, postal code, size, city)
+    // use the searchValue saved in store
     filteredHouses() {
       return this.houses.filter(house => {
         return (
@@ -61,7 +64,8 @@ export default {
       });
     },
 
-    //sort house array based on the button clicked(price/size)
+    // sort house array based on the button clicked(price/size)
+    // use the activeSortButton saved in store
     sortedHouses() {
       const filteredHouses = this.filteredHouses;
       if (this.activeSortButton === 0) {
@@ -74,16 +78,22 @@ export default {
 
   },
   methods: {
-    // Add dot separation on thousands for price
+    // add dot separation on thousands for price
     separateWithDot(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
+
+    // if delete button is clicked save id in vuex store
     setSelectedHouseId(id) {
       this.$store.dispatch('setSelectedHouseId', id)
     },
+
+    // activate delete modal when delete button clicked
     setActiveModal() {
       this.$store.dispatch('setActiveModal', true)
     },
+
+    // if house selected save its id and listing information in vuex store
     setListing(id) {
       this.setSelectedHouseId(id)
       this.$store.dispatch("setListing", this.$store.state.selectedHouseId);

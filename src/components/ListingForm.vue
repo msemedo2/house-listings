@@ -10,14 +10,14 @@
       </div>
       <div class="form-input-container">
 
-        <!-- Street Name -->
+        <!-- street name -->
         <label for="street-name" class="input-title">Street name*</label>
         <input type="text" name="streetName" placeholder="Enter the street name" v-model="houseInfo.streetName"
           :class="{ 'error': missingFields.includes('streetName') }">
         <span v-if="missingFields.includes('streetName')" class="error-message">Required field is missing.</span>
         <div class="house-info-container">
 
-          <!-- House Number -->
+          <!-- house number -->
           <div class="house-info">
             <label for="house-number" class="input-title">House number*</label>
             <input type="text" name="houseNumber" placeholder="Enter house number" v-model="houseInfo.houseNumber"
@@ -25,26 +25,26 @@
             <span v-if="missingFields.includes('houseNumber')" class="error-message">Required field is missing.</span>
           </div>
 
-          <!-- Additional -->
+          <!-- additional -->
           <div class="house-info">
             <label for="postal-code" class="input-title">Additional (optional)</label>
             <input type="text" name="numberAddition" placeholder="e.g. A" v-model="houseInfo.numberAddition">
           </div>
         </div>
 
-        <!-- Zip -->
+        <!-- zip -->
         <label for="postal-code" class="input-title">Postal code*</label>
         <input type="text" name="zip" placeholder="e.g. 1000 AA" v-model="houseInfo.zip"
           :class="{ 'error': missingFields.includes('zip') }">
         <span v-if="missingFields.includes('zip')" class="error-message">Required field is missing.</span>
 
-        <!-- City -->
+        <!-- city -->
         <label for="city" class="input-title">City*</label>
         <input type="text" name="city" placeholder="e.g. Utrecht" v-model="houseInfo.city"
           :class="{ 'error': missingFields.includes('city') }">
         <span v-if="missingFields.includes('city')" class="error-message">Required field is missing.</span>
 
-        <!-- Upload Picture -->
+        <!-- upload picture -->
         <label for="upload-picture" class="input-title">Upload picture(PNG or JPG)*</label>
         <div class="upload-picture-container" :style="{
           border: displayImage !== '' || image !== plusImage ? 'none' : null
@@ -58,7 +58,7 @@
         </div>
         <span v-if="missingFields.includes('displayImage')" class="error-message">Required field is missing.</span>
 
-        <!-- Price -->
+        <!-- price -->
         <label for="price" class="input-title">Price*</label>
         <input type="text" name="price" placeholder="e.g. €150.000" v-model="houseInfo.price"
           :class="{ 'error': missingFields.includes('price') }">
@@ -66,15 +66,14 @@
         <div class="house-size-garage-container">
           <div class="house-size">
 
-            <!-- Size -->
+            <!-- size -->
             <label for="size" class="input-title">Size*</label>
             <input type="text" name="size" placeholder="e.g. 60m2" v-model="houseInfo.size" class="size"
               :class="{ 'error': missingFields.includes('size') }">
             <span v-if="missingFields.includes('size')" class="error-message">Required field is missing.</span>
           </div>
 
-          <!-- Garage -->
-
+          <!-- garage -->
           <div class="house-garage">
             <label for="garage" class="input-title">Garage*</label>
             <input type="number" name="hasGarage" placeholder="Select" min="0" max="1" v-model="houseInfo.hasGarage"
@@ -85,7 +84,7 @@
         <div class="house-info-container">
           <div class="house-input">
 
-            <!-- Bedrooms -->
+            <!-- bedrooms -->
             <label for="bedrooms" class="input-title">Bedrooms*</label>
             <input type="text" name="bedrooms" placeholder="Enter amount" v-model="houseInfo.bedrooms"
               :class="{ 'error': missingFields.includes('bedrooms') }">
@@ -93,7 +92,7 @@
           </div>
           <div class="house-input">
 
-            <!-- Bathrooms -->
+            <!-- bathrooms -->
             <label for="bathrooms" class="input-title">Bathrooms*</label>
             <input type="text" name="bathrooms" placeholder="Enter amount" v-model="houseInfo.bathrooms"
               :class="{ 'error': missingFields.includes('bathrooms') }">
@@ -101,19 +100,19 @@
           </div>
         </div>
 
-        <!-- Construction Date -->
+        <!-- construction date -->
         <label for="construction-date" class="input-title">Construction date*</label>
         <input type="text" name="constructionYear" placeholder="e.g. 1990" v-model="houseInfo.constructionYear"
           :class="{ 'error': missingFields.includes('constructionYear') }">
         <span v-if="missingFields.includes('constructionYear')" class="error-message">Required field is missing.</span>
 
-        <!-- Description -->
+        <!-- description -->
         <label for="description" class="input-title">Description*</label>
         <textarea name="description" cols="30" rows="7" placeholder="Enter description" v-model="houseInfo.description"
           :class="{ 'error': missingFields.includes('description') }"></textarea>
         <span v-if="missingFields.includes('description')" class="error-message">Required field is missing.</span>
 
-        <!-- Submit Button -->
+        <!-- submit button -->
         <div class="submit-button-container">
           <button class="submit-button" type="submit" @click="checkRequiredFields">{{ button }}</button>
         </div>
@@ -127,8 +126,10 @@ import BackButton from '../components/BackButton.vue'
 import { mapState } from 'vuex';
 
 export default {
-
   name: 'ListingForm',
+  components: {
+    BackButton,
+  },
   data() {
     return {
       plusImage: '../../assets/ic_upload@3x.png',
@@ -147,9 +148,6 @@ export default {
     'image',
     'backButtonImage'
   ],
-  components: {
-    BackButton,
-  },
   computed: {
     ...mapState(['houses', 'listing']),
     imageStyle() {
@@ -162,16 +160,17 @@ export default {
   },
 
   methods: {
+    // listing for clicks on the upload image element
     triggerUploadInput() {
       this.$refs.uploadInput.click();
-
     },
+    //when remove image element is selected reset
     removeImage() {
       this.displayImage = '';
       this.$emit('update-image', '');
       this.uploadedImage = '';
     },
-    //Convert image file into file that can be read and assign it to uploaded image
+    //when an image is selected from the folder converting image file into file that can be passed to the api request and assign it to uploaded image. also assigning the image to display
     uploadImage(e) {
       const files = e.target.files
       const file = files[0];
@@ -184,6 +183,9 @@ export default {
       fileReader.readAsDataURL(files[0])
     },
 
+    // from validation
+    // check if the required fields have been filled, if the garage is zero or one and if the image selected is different from the previous one (in case is coming from the editForm component) or if it is field (if it comes from the createForm component)
+    // if passed, call submitForm function in the parent component
     checkRequiredFields(e) {
       e.preventDefault();
       this.missingFields = []
@@ -417,7 +419,6 @@ textarea {
   .form-input-container {
     max-width: 90%;
   }
-
 
   .submit-button {
     width: 100%;
