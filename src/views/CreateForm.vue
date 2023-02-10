@@ -1,6 +1,6 @@
 <template>
   <listing-form :title="title" :button="button" :houseInfo="houseInfo" @submitForm="postHouse" :image="image"
-    @update-image="updateImage" />
+    @update-image="updateImage" :backButtonImage="backButtonImage" />
 </template>
 
 <script>
@@ -33,6 +33,7 @@ export default {
         description: '',
       },
       image: '../../assets/ic_upload@3x.png',
+      backButtonImage: '../../assets/ic_back_grey@3x.png'
     }
   },
   computed: {

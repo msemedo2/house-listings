@@ -1,6 +1,6 @@
 <template>
   <listing-form :title="title" :button="button" :houseInfo="houseInfo" @submitForm="editHouse" :image="image"
-    @update-image="updateImage" />
+    @update-image="updateImage" :backButtonImage="backButtonImage" />
 </template>
 
 <script>
@@ -22,6 +22,7 @@ export default {
       button: 'Save',
       houseInfo: null,
       image: '',
+      backButtonImage: '../../assets/ic_back_grey@3x.png'
     }
   },
   mounted() {

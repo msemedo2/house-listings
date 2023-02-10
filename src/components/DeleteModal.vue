@@ -55,12 +55,14 @@ export default {
 }
 
 .modal {
+  max-width: 580px;
+  width: 90%;
+  padding: 40px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: white;
-  padding: 40px 100px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow-y: auto;
@@ -72,11 +74,11 @@ h2 {
 
 p+p {
   font-family: var(--ff-secondary);
-  margin-bottom: 40px;
+  margin-bottom: 35px;
 }
 
 button {
-  width: 90%;
+  width: 60%;
   border-radius: 10px;
   text-transform: upperCase;
   font-weight: var(--fw-regular);
@@ -90,5 +92,6 @@ button {
 
 .back-button {
   background-color: var(--secondary-color);
+  font-weight: var(--fw-semibold)
 }
 </style>

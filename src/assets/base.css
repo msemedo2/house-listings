@@ -18,9 +18,14 @@
 	--fw-semibold: 600;
 	--fw-bold: 700;
 
+	--fs-header: 32px;
+	--fs-header2: 22px;
 	--fs: 18px;
 	--fs-input: 14px;
+	--fs-input-error: 18px;
+	--fs-empty-message: 18px;
 	--fs-button: 18px;
+	--fs-text: 16px;
 }
 
 *,
@@ -37,5 +42,24 @@ body {
 	background: var(--bg-color-dark);
 	font-family: var(--ff-primary);
 	line-height: 1.5;
+	font-size: var(--fs);
 	-webkit-font-smoothing: antialiased;
+}
+
+@media (max-width: 500px) {
+	:root {
+		--fw-regular: 400;
+		--fw-medium: 500;
+		--fw-semibold: 600;
+		--fw-bold: 700;
+
+		--fs-header: 18px;
+		--fs-header2: 14px;
+		--fs: 12px;
+		--fs-input: 12px;
+		--fs-input-error: 14px;
+		--fs-empty-message: 14px;
+		--fs-button: 12px;
+		--fs-text: 12px;
+	}
 }

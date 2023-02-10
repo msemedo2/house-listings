@@ -39,6 +39,12 @@ export default {
 </script>
 
 <style scoped>
+.filter-container {
+  width: 40%;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .options-container {
   margin-top: 30px;
   display: flex;
@@ -47,8 +53,10 @@ export default {
 
 .price-button,
 .size-button {
-  width: 120px;
   height: 100%;
+  width: 50%;
+  max-width: 35%;
+  min-width: 98px;
 }
 
 .price-button {
@@ -57,5 +65,20 @@ export default {
 
 .size-button {
   border-radius: 0 10px 10px 0;
+}
+
+@media (max-width: 500px) {
+  .filter-container {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .price-button,
+  .size-button {
+    height: 35px;
+    width: 50%;
+    max-width: 100%;
+    min-width: 0;
+  }
 }
 </style>

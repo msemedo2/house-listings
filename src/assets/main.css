@@ -5,7 +5,20 @@
 }
 
 h1 {
-	font-size: 32px;
+	font-size: var(--fs-header);
+	font-family: var(--ff-primary);
+	font-weight: var(--fw-bold);
+}
+
+h2 {
+	font-size: var(--fs-header2);
+	font-family: var(--ff-primary);
+	font-weight: var(--fw-bold);
+}
+
+p {
+	font-size: var(--fs-text);
+	font-family: var(--ff-secondary);
 }
 
 img {
@@ -40,6 +53,11 @@ textarea {
 	font-weight: var(--fw-regular);
 	font-size: var(--fs-input);
 	outline: none;
+}
+
+label {
+	font-family: var(--ff-primary);
+	font-weight: var(--fw-semibold);
 }
 
 input::placeholder,

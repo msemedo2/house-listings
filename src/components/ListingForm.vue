@@ -2,8 +2,12 @@
 <template>
   <form class="container" v-if="houseInfo">
     <div class="form-container">
-      <back-button />
-      <h1>{{ title }}</h1>
+      <div class="header-container">
+        <back-button :backButtonImage="backButtonImage" />
+        <div class="title-container">
+          <h1>{{ title }}</h1>
+        </div>
+      </div>
       <div class="form-input-container">
 
         <!-- Street Name -->
@@ -59,8 +63,8 @@
         <input type="text" name="price" placeholder="e.g. €150.000" v-model="houseInfo.price"
           :class="{ 'error': missingFields.includes('price') }">
         <span v-if="missingFields.includes('price')" class="error-message">Required field is missing.</span>
-        <div class="house-info-container">
-          <div class="house-input">
+        <div class="house-size-garage-container">
+          <div class="house-size">
 
             <!-- Size -->
             <label for="size" class="input-title">Size*</label>
@@ -71,7 +75,7 @@
 
           <!-- Garage -->
 
-          <div class="house-input">
+          <div class="house-garage">
             <label for="garage" class="input-title">Garage*</label>
             <input type="number" name="hasGarage" placeholder="Select" min="0" max="1" v-model="houseInfo.hasGarage"
               :class="{ 'error': missingFields.includes('hasGarage') }" class="garage">
@@ -141,6 +145,7 @@ export default {
     'button',
     'houseInfo',
     'image',
+    'backButtonImage'
   ],
   components: {
     BackButton,
@@ -267,6 +272,22 @@ input[type=number]::-webkit-inner-spin-button {
   gap: 30px;
 }
 
+.house-size-garage-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 30px;
+}
+
+
+.house-size {
+  width: 50%;
+}
+
+.house-garage {
+  width: 50%;
+}
+
 .house-info {
   width: 50%;
 }
@@ -322,11 +343,6 @@ input[type=number]::-webkit-inner-spin-button {
   cursor: pointer;
 }
 
-.garage,
-.size {
-  width: 183px;
-}
-
 textarea {
   background-color: var(--bg-color-light);
   padding: 15px 15px 0 15px;
@@ -357,14 +373,54 @@ textarea {
 
 .error::placeholder {
   color: var(--primary-color);
+  font-size: var(--empty-message);
 }
 
 .error-message {
   font-style: italic;
+  font-family: var(--ff-primary);
   font-size: var(--fs-input);
   font-weight: var(--fw-medium);
   color: var(--primary-color);
 }
+
+@media (max-width: 500px) {
+  .form-container {
+    padding-top: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header-container {
+    width: 100%;
+    display: flex;
+    max-width: 90%;
+  }
+
+  .title-container {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    margin-right: 30px;
+  }
+
+  .arrow-image {
+    margin-right: 0px;
+  }
+
+  h1 {
+    margin: 0
+  }
+
+  .form-input-container {
+    max-width: 90%;
+  }
+
+
+  .submit-button {
+    width: 100%;
+  }
+}
 </style>
-
-

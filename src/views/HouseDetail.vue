@@ -1,6 +1,6 @@
 <template>
   <div class="house-detail-container">
-    <back-button />
+    <back-button :backButtonImage="backButtonImage" />
     <div class="selected-house-container">
       <div class="image-container">
         <img :src="selectedHouse.image" alt="house image" class="image">
@@ -10,29 +10,29 @@
           <h2>{{ selectedHouse.location.street }}</h2>
           <div>
             <!-- Edit / Delete Button -->
-            <edit-button />
+            <edit-button :deleteButton="deleteButton" :editButton="editButton" />
           </div>
         </div>
         <div class="house-info">
           <img src="../../assets/ic_location@3x.png" alt="location icon" class="icon">
-          <p>{{ selectedHouse.location.zip }}</p>
-          <p>{{ selectedHouse.location.city }}</p>
+          <p class="listing-text">{{ selectedHouse.location.zip }}</p>
+          <p class="listing-text">{{ selectedHouse.location.city }}</p>
         </div>
         <div class="house-info">
           <img src="../../assets/ic_price@3x.png" alt="location icon" class="icon">
-          <p>{{ selectedHouse.price }}</p>
+          <p class="listing-text">{{ selectedHouse.price }}</p>
           <img src="../../assets/ic_size@3x.png" alt="location icon" class="icon">
-          <p>{{ selectedHouse.size }} m2</p>
+          <p class="listing-text">{{ selectedHouse.size }} m2</p>
           <img src="../../assets/ic_construction_date@3x.png" alt="location icon" class="icon">
-          <p>{{ selectedHouse.constructionYear }}</p>
+          <p class="listing-text">{{ selectedHouse.constructionYear }}</p>
         </div>
         <div class="house-info">
           <img src="../../assets/ic_bed@3x.png" alt="location icon" class="icon">
-          <p>{{ selectedHouse.rooms.bedrooms }}</p>
+          <p class="listing-text">{{ selectedHouse.rooms.bedrooms }}</p>
           <img src="../../assets/ic_bath@3x.png" alt="location icon" class="icon">
-          <p>{{ selectedHouse.rooms.bathrooms }}</p>
+          <p class="listing-text">{{ selectedHouse.rooms.bathrooms }}</p>
           <img src="../../assets/ic_garage@3x.png" alt="location icon" class="icon">
-          <p>{{ selectedHouse.hasGarage ? 'Yes' : 'No' }}</p>
+          <p class="listing-text">{{ selectedHouse.hasGarage ? 'Yes' : 'No' }}</p>
         </div>
         <p class="description">{{ selectedHouse.description }}</p>
       </div>
@@ -54,7 +54,10 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      garage: 0
+      garage: 0,
+      backButtonImage: '',
+      editButton: '',
+      deleteButton: '',
     }
   },
   computed: {
@@ -71,10 +74,23 @@ export default {
     setListing() {
       this.$store.dispatch('setListing', parseInt(this.$store.state.selectedHouseId));
     },
+    checkScreenSize() {
+      if (window.innerWidth < 501) {
+        this.backButtonImage = '../../assets/ic_back_white@3x.png'
+        this.editButton = '../../assets/ic_edit_white@3x.png'
+        this.deleteButton = '../../assets/ic_delete_white@3x.png'
+      } else {
+        this.backButtonImage = '../../assets/ic_back_grey@3x.png'
+        this.editButton = '../../assets/ic_edit@3x.png'
+        this.deleteButton = '../../assets/ic_delete@3x.png'
+      }
+    }
   },
   mounted() {
     this.setSelectedHouseId()
     this.setListing()
+    window.addEventListener('resize', this.checkScreenSize)
+    this.checkScreenSize()
   }
 }
 </script>
@@ -101,9 +117,12 @@ export default {
   font-size: 16px;
 }
 
+.listing-text {
+  font-weight: var(--fw-bold);
+}
+
 .selected-house-container {
   margin-top: 25px;
-  /* display: inline-block */
 }
 
 .house-info-container {
@@ -128,5 +147,30 @@ export default {
 .description {
   margin-top: 20px;
   line-height: 1.7;
+}
+
+@media (max-width: 500px) {
+  .go-back-container {
+    position: absolute;
+    top: 50px;
+    left: 25px;
+  }
+
+  .house-detail-container {
+    width: 100%;
+    padding: 0;
+    top: 0;
+    position: relative;
+    top: -25px;
+    overflow: hidden
+  }
+
+  .house-info-container {
+    position: relative;
+    z-index: 10;
+    padding: 30px 15px 15px;
+    top: -50px;
+    border-radius: 20px 20px 0 0;
+  }
 }
 </style>

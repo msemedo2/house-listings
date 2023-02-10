@@ -42,7 +42,6 @@ export default {
 	width: 90%;
 }
 
-/* --- */
 .header-container {
 	display: flex;
 	justify-content: space-between;
@@ -50,8 +49,8 @@ export default {
 	margin-top: 80px;
 }
 
-/* --- */
 .options-container {
+	width: 100%;
 	margin-top: 30px;
 	display: flex;
 	justify-content: space-between;
@@ -70,5 +69,20 @@ export default {
 
 .size-button {
 	border-radius: 0 10px 10px 0;
+}
+
+@media (max-width: 500px) {
+	.header-container {
+		width: 100%;
+		justify-content: flex-end;
+		gap: 35%;
+		margin-top: 0px;
+	}
+
+	.options-container {
+		flex-direction: column;
+		justify-content: center;
+		margin-top: 20px;
+	}
 }
 </style>

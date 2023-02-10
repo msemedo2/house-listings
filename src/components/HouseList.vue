@@ -4,7 +4,7 @@
     <h2 v-show="sortedHouses.length < houses.length && sortedHouses.length !== 0" class="houses-found">{{
       sortedHouses.length
     }} houses found</h2>
-    <router-link :to="{ path: `/house/${id}` }"
+    <router-link :to="{ path: `/house/${id}` }" @click="setListing(id)"
       v-for="{ id, image, location, price, rooms, size, madeByMe } in sortedHouses" :key="id" class="house-container">
       <div class="house-image-container">
         <img :src=image class="house-img" alt="House">
@@ -14,12 +14,14 @@
           <h2>{{ location.street }}</h2>
           <!-- Check if house was made by the user and only render edit and delete button if true -->
           <div v-show="!madeByMe === false" class="buttons-container">
-            <img src="../../assets/ic_edit@3x.png" alt="location icon" class="edit-icon">
+            <router-link :to="{ path: `/edit-listing/${id}` }">
+              <img src="../../assets/ic_edit@3x.png" alt="location icon" class="edit-icon">
+            </router-link>
             <img src="../../assets/ic_delete@3x.png" alt="location icon" class="delete-icon "
               @click.prevent="setActiveModal(id), setSelectedHouseId(id)">
           </div>
         </div>
-        <p>€ {{ separateWithDot(price) }}</p>
+        <p class="price-text">€ {{ separateWithDot(price) }}</p>
         <p class="city">{{ location.zip }} {{ location.city }}</p>
         <div class="house-info-container">
           <img class="info-icon" src="../../assets/ic_bed@3x.png" alt="bed">
@@ -78,14 +80,14 @@ export default {
     },
     setSelectedHouseId(id) {
       this.$store.dispatch('setSelectedHouseId', id)
-      console.log(id)
     },
     setActiveModal() {
       this.$store.dispatch('setActiveModal', true)
-
-      // this.setSelectedHouseId(id)
-      // this.$store.dispatch('deleteListing')
     },
+    setListing(id) {
+      this.setSelectedHouseId(id)
+      this.$store.dispatch("setListing", this.$store.state.selectedHouseId);
+    }
   },
 
 };
@@ -147,6 +149,10 @@ h2 {
   margin-top: 5px;
 }
 
+.price-text {
+  font-weight: var(--fw-semibold)
+}
+
 .city {
   color: var(--tertiary-color-dark);
 }
@@ -175,5 +181,13 @@ h2 {
 .no-results-image {
   width: 300px;
   margin-bottom: 30px;
+}
+
+@media (max-width: 500px) {
+
+  .delete-icon,
+  .edit-icon {
+    margin: 5px 6px 0 0;
+  }
 }
 </style>

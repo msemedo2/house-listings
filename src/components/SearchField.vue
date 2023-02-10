@@ -28,6 +28,7 @@ export default {
 	background-color: var(--tertiary-color-light);
 	padding: 5px 5px 5px 5px;
 	border-radius: 5px;
+	width: 45%;
 }
 
 .magnify-img {
@@ -38,7 +39,14 @@ export default {
 }
 
 input {
-	width: 330px;
 	margin-left: 10px;
+	width: 70%;
+}
+
+@media (max-width: 500px) {
+	.input-container {
+		width: 100%;
+		height: 35px;
+	}
 }
 </style>
