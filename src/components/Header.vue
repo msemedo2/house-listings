@@ -10,14 +10,14 @@
 			<!-- mobile navbar -->
 			<ul class="link-container">
 				<router-link :to="{ name: 'home' }">
-					<img :src="imageHomeSource" @click="changeHomeImage" alt="home image" class="home-icon">
+					<img :src="imageHomeSource" alt="home image" class="home-icon">
 				</router-link>
 				<router-link :to="{ name: 'about' }">
-					<img :src="imageAboutSource" @click="changeInfoImage" alt="about image" class="about-icon">
+					<img :src="imageAboutSource" alt="about image" class="about-icon">
 				</router-link>
 			</ul>
 		</nav>
-	</header>
+</header>
 </template>
 
 <script>
@@ -51,20 +51,8 @@ export default {
 				this.imageAboutSource = this.activeInfoImage;
 			}
 		},
-		// render correct image based on the active route	
-		changeHomeImage() {
-			if (this.$route.path === "/about") {
-				this.imageHomeSource = this.activeHomeImage;
-				this.imageAboutSource = this.originalAboutImage;
-			}
-		},
-		changeInfoImage() {
-			if (this.$route.path === "/") {
-				this.imageHomeSource = this.originalHomeImage;
-				this.imageAboutSource = this.activeInfoImage;
-			}
-		}
-	}
+
+	},
 };
 </script>
 
