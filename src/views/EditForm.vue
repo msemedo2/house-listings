@@ -1,11 +1,10 @@
 <template>
   <listing-form :title="title" :button="button" :houseInfo="houseInfo" @submitForm="editHouse" :image="image"
-    @update-image="updateImage" :backButtonImage="backButtonImage" />
+  @update-image="updateImage" :backButtonImage="backButtonImage" />
 </template>
 
 <script>
 import ListingForm from '../components/ListingForm.vue';
-import axios from 'axios';
 import { mapState } from 'vuex';
 
 export default {
@@ -41,7 +40,7 @@ export default {
   },
   methods: {
     formatListing() {
-      // separate the value saved in store listing.location.street, into streeName and houseNumber
+      // separate the value saved in store listing.location.street, into streetName and houseNumber
       const street = this.listing.location.street;
       const streetParts = street.split(" ");
       const houseNumber = parseInt(streetParts.pop());
@@ -70,45 +69,9 @@ export default {
 
     // api post request to edit the information of the listing
     editHouse(updatedHouseInfo, uploadedImage) {
-      const url = `https://api.intern.d-tt.nl/api/houses/${this.selectedHouseId}`;
-      const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
-      const data = updatedHouseInfo;
-
-      axios
-        .post(url, data, {
-          headers: {
-            'X-Api-Key': API_KEY,
-          },
-        })
-        .then(() => {
-          this.$store.dispatch('addHouse', { ...updatedHouseInfo });
-          this.postImage(uploadedImage)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
+      this.$store.dispatch('editHouse', { updatedHouseInfo, uploadedImage });
     },
 
-    // api post request to update the image of the respective house
-    postImage(uploadedImage) {
-      const imgUrl = `https://api.intern.d-tt.nl/api/houses/${this.selectedHouseId}/upload`;
-      const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
-
-      const formData = new FormData();
-      formData.append("image", uploadedImage);
-
-      axios
-        .post(imgUrl, formData, {
-          headers: {
-            'X-Api-Key': API_KEY,
-            'Content-Type': 'multipart/form-data',
-          },
-        }).then(() => {
-          this.$store.dispatch('fetchHouses')
-          this.$router.push({ path: `/house/${this.selectedHouseId}` })
-        })
-    },
     updateImage() {
       this.image = '../../assets/ic_upload@3x.png'
     }

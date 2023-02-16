@@ -1,5 +1,14 @@
 import { createStore } from 'vuex';
+import router from '@/router';
 import axios from 'axios';
+
+const axiosInstance = axios.create({
+	baseURL: 'https://api.intern.d-tt.nl/api/houses',
+	headers: {
+		'X-Api-Key': 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN',
+		'Content-Type': 'multipart/form-data',
+	},
+});
 
 export default createStore({
 	state: {
@@ -37,18 +46,12 @@ export default createStore({
 			state.houses.push(house);
 		},
 	},
+
 	actions: {
 		// api get request to fetch house listings
 		fetchHouses({ commit }) {
-			const url = 'https://api.intern.d-tt.nl/api/houses';
-			const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
-
-			axios
-				.get(url, {
-					headers: {
-						'X-Api-Key': API_KEY,
-					},
-				})
+			axiosInstance
+				.get('/')
 				.then((res) => {
 					commit('SET_HOUSES', res.data);
 				})
@@ -58,21 +61,55 @@ export default createStore({
 		},
 
 		deleteListing({ state, commit }) {
-			const url = `https://api.intern.d-tt.nl/api/houses/${state.selectedHouseId}`;
-			const API_KEY = 'QftPEp38KycCIOjqmsBra-XeVk7_hlAN';
-
-			axios
-				.delete(url, {
-					headers: {
-						'X-Api-Key': API_KEY,
-					},
-				})
+			axiosInstance
+				.delete(`/${state.selectedHouseId}`)
 				.then(() => {
 					// filter the house that was deleted and update houses array - rerendering
 					const updatedHouses = state.houses.filter(
 						(house) => house.id !== state.selectedHouseId
 					);
 					commit('UPDATE_HOUSES_ARRAY', updatedHouses);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
+
+		// api post request to create new listing based on the information filled in the listingForm
+		postHouse({ commit, dispatch }, { updatedHouseInfo, uploadedImage }) {
+			axiosInstance
+				.post('/', updatedHouseInfo)
+				.then((res) => {
+					const id = res.data.id;
+					commit('ADD_HOUSE', { ...updatedHouseInfo, id });
+					dispatch('postImage', { id, uploadedImage });
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
+
+		// api post request to set the image on the created house, based on the id generated
+		postImage({ dispatch }, { id, uploadedImage }) {
+			const formData = new FormData();
+			formData.append('image', uploadedImage);
+
+			axiosInstance.post(`/${id}/upload`, formData).then(() => {
+				dispatch('fetchHouses');
+				router.push({ path: `/house/${id}` });
+			});
+		},
+
+		// api post request to edit the information of the listing
+		editHouse(
+			{ commit, dispatch, state },
+			{ updatedHouseInfo, uploadedImage }
+		) {
+			axiosInstance
+				.post(`/${state.selectedHouseId}`, updatedHouseInfo)
+				.then(() => {
+					commit('ADD_HOUSE', { ...updatedHouseInfo });
+					dispatch('postImage', { id: state.selectedHouseId, uploadedImage });
 				})
 				.catch((err) => {
 					console.log(err);
