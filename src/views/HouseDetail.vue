@@ -111,6 +111,11 @@ export default {
   justify-content: center;
 }
 
+.image {
+  width: 100%;
+  height: auto;
+}
+
 .house-detail-container {
   margin: 0 auto;
   height: 100vh;
