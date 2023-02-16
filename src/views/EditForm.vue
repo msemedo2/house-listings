@@ -1,6 +1,6 @@
 <template>
   <listing-form :title="title" :button="button" :houseInfo="houseInfo" @submitForm="editHouse" :image="image"
-  @update-image="updateImage" :backButtonImage="backButtonImage" />
+  @update-image="updateImage" :backButtonImage="backButtonImage" @toggleGarage="toggleGarage" />
 </template>
 
 <script>
@@ -46,14 +46,10 @@ export default {
       const houseNumber = parseInt(streetParts.pop());
       const streetName = streetParts.join(" ");
 
-      // convert hasGarage to 1 or two depending on the value
-      let hasGarage = 0
-      this.listing.hasGarage === true ? hasGarage === 1 : hasGarage === 0
-
       this.houseInfo = {
         constructionYear: this.listing.constructionYear,
         description: this.listing.description,
-        hasGarage,
+        hasGarage: this.listing.hasGarage === true ? 'Yes' : 'No',
         city: this.listing.location.city,
         streetName,
         houseNumber,
@@ -74,6 +70,10 @@ export default {
 
     updateImage() {
       this.image = '../../assets/ic_upload@3x.png'
+    },
+
+    toggleGarage() {
+      this.houseInfo.hasGarage = this.houseInfo.hasGarage === 'Yes' ? 'No' : 'Yes'
     }
   },
 }

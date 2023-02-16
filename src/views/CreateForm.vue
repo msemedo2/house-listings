@@ -1,6 +1,6 @@
 <template>
   <listing-form :title="title" :button="button" :houseInfo="houseInfo" @submitForm="postHouse" :image="image"
-  @update-image="updateImage" :backButtonImage="backButtonImage" />
+  @update-image="updateImage" :backButtonImage="backButtonImage" @toggleGarage="toggleGarage" />
 </template>
 
 <script>
@@ -46,6 +46,10 @@ export default {
     updateImage() {
       this.image = '../../assets/ic_upload@3x.png'
     },
+
+    toggleGarage() {
+      this.houseInfo.hasGarage = this.houseInfo.hasGarage === 'Yes' ? 'No' : 'Yes'
+    }
   }
 }
 </script>

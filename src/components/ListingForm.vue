@@ -74,11 +74,15 @@
           </div>
 
           <!-- garage -->
-          <div class="house-garage">
+          <div class="house-garage" style="position: relative;">
             <label for="garage" class="input-title">Garage*</label>
-            <input type="number" name="hasGarage" placeholder="Select" min="0" max="1" v-model="houseInfo.hasGarage"
-              :class="{ 'error': missingFields.includes('hasGarage') }" class="garage">
-            <span v-if="missingFields.includes('hasGarage')" class="error-message">Value must be 0 or 1</span>
+            <div class="arrows">
+              <img src="../../assets/up-down-arrows.png" alt="up down arrows" class="up-down-arrows"
+                @click="toggleGarage">
+            </div>
+            <input type="text" name="hasGarage" placeholder="Select" v-model="houseInfo.hasGarage"
+              :class="{ 'error': missingFields.includes('hasGarage') }" class="garage" />
+            <span v-if="missingFields.includes('hasGarage')" class="error-message">Field must be Yes or No</span>
           </div>
         </div>
         <div class="house-info-container">
@@ -118,7 +122,7 @@
         </div>
       </div>
     </div>
-  </form>
+</form>
 </template>
 
 <script>
@@ -183,8 +187,8 @@ export default {
       fileReader.readAsDataURL(files[0])
     },
 
-    // from validation
-    // check if the required fields have been filled, if the garage is zero or one and if the image selected is different from the previous one (in case is coming from the editForm component) or if it is field (if it comes from the createForm component)
+    // form validation
+    // check if the required fields have been filled, if the garage is Yes or No and if the image selected is different from the previous one (in case is coming from the editForm component) or if it is filled (if it comes from the createForm component)
     // if passed, call submitForm function in the parent component
     checkRequiredFields(e) {
       e.preventDefault();
@@ -196,7 +200,7 @@ export default {
         if (!value && value !== 0) {
           this.missingFields.push(field);
         }
-        if (field === 'hasGarage' && (value !== 0 && value !== 1)) {
+        if (field === 'hasGarage' && (value !== 'Yes' && value !== 'No')) {
           this.missingFields.push(field);
         }
       }
@@ -206,6 +210,10 @@ export default {
       if (this.missingFields.length === 0) {
         this.$emit('submitForm', this.houseInfo, this.uploadedImage)
       }
+    },
+
+    toggleGarage() {
+      this.$emit('toggleGarage')
     },
   },
 };
@@ -339,6 +347,19 @@ input[type=number]::-webkit-inner-spin-button {
   width: 100%;
   cursor: pointer;
   opacity: 0;
+}
+
+.arrows {
+  cursor: pointer;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right: 5px;
+  top: 38px;
+}
+
+.up-down-arrows {
+  opacity: 40%;
 }
 
 ::-webkit-file-upload-button {
