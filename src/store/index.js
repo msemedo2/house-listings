@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 import router from '@/router';
 import axios from 'axios';
+import createPersistedState from 'vuex-persistedstate';
 
 const axiosInstance = axios.create({
 	baseURL: 'https://api.intern.d-tt.nl/api/houses',
@@ -10,7 +11,7 @@ const axiosInstance = axios.create({
 	},
 });
 
-export default createStore({
+const store = createStore({
 	state: {
 		houses: [],
 		searchValue: '',
@@ -19,7 +20,12 @@ export default createStore({
 		activeModal: false,
 		listing: {},
 	},
-
+	plugins: [
+		createPersistedState({
+			key: 'house-listings',
+			storage: window.sessionStorage,
+		}),
+	],
 	mutations: {
 		SET_HOUSES(state, houses) {
 			state.houses = houses;
@@ -109,6 +115,11 @@ export default createStore({
 				.post(`/${state.selectedHouseId}`, updatedHouseInfo)
 				.then(() => {
 					commit('ADD_HOUSE', { ...updatedHouseInfo });
+					if (!uploadedImage) {
+						dispatch('fetchHouses');
+						router.push({ path: `/house/${state.selectedHouseId}` });
+						return;
+					}
 					dispatch('postImage', { id: state.selectedHouseId, uploadedImage });
 				})
 				.catch((err) => {
@@ -144,3 +155,5 @@ export default createStore({
 		},
 	},
 });
+
+export default store;
