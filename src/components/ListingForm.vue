@@ -20,7 +20,7 @@
           <!-- house number -->
           <div class="house-info">
             <label for="house-number" class="input-title">House number*</label>
-            <input type="text" name="houseNumber" placeholder="Enter house number" v-model="houseInfo.houseNumber"
+            <input type="number" name="houseNumber" placeholder="Enter house number" v-model="houseInfo.houseNumber"
               :class="{ 'error': missingFields.includes('houseNumber') }">
             <span v-if="missingFields.includes('houseNumber')" class="error-message">Required field is missing.</span>
           </div>
@@ -59,16 +59,18 @@
         <span v-if="missingFields.includes('displayImage')" class="error-message">Required field is missing.</span>
 
         <!-- price -->
-        <label for="price" class="input-title">Price*</label>
-        <input type="text" name="price" placeholder="e.g. €150.000" v-model="houseInfo.price"
-          :class="{ 'error': missingFields.includes('price') }">
-        <span v-if="missingFields.includes('price')" class="error-message">Required field is missing.</span>
+        <div class="price-container">
+          <label for="price" class="input-title">Price*</label>
+          <input type="number" name="price" placeholder="e.g. €150.000" v-model="houseInfo.price"
+            :class="{ 'error': missingFields.includes('price') }" class="price-input">
+          <span v-if="missingFields.includes('price')" class="error-message">Required field is missing.</span>
+        </div>
         <div class="house-size-garage-container">
           <div class="house-size">
 
             <!-- size -->
             <label for="size" class="input-title">Size*</label>
-            <input type="text" name="size" placeholder="e.g. 60m2" v-model="houseInfo.size" class="size"
+            <input type="number" name="size" placeholder="e.g. 60m2" v-model="houseInfo.size" class="size-input"
               :class="{ 'error': missingFields.includes('size') }">
             <span v-if="missingFields.includes('size')" class="error-message">Required field is missing.</span>
           </div>
@@ -90,7 +92,7 @@
 
             <!-- bedrooms -->
             <label for="bedrooms" class="input-title">Bedrooms*</label>
-            <input type="text" name="bedrooms" placeholder="Enter amount" v-model="houseInfo.bedrooms"
+            <input type="number" name="bedrooms" placeholder="Enter amount" v-model="houseInfo.bedrooms"
               :class="{ 'error': missingFields.includes('bedrooms') }">
             <span v-if="missingFields.includes('bedrooms')" class="error-message">Required field is missing.</span>
           </div>
@@ -98,7 +100,7 @@
 
             <!-- bathrooms -->
             <label for="bathrooms" class="input-title">Bathrooms*</label>
-            <input type="text" name="bathrooms" placeholder="Enter amount" v-model="houseInfo.bathrooms"
+            <input type="number" name="bathrooms" placeholder="Enter amount" v-model="houseInfo.bathrooms"
               :class="{ 'error': missingFields.includes('bathrooms') }">
             <span v-if="missingFields.includes('bathrooms')" class="error-message">Required field is missing.</span>
           </div>
@@ -106,9 +108,10 @@
 
         <!-- construction date -->
         <label for="construction-date" class="input-title">Construction date*</label>
-        <input type="text" name="constructionYear" placeholder="e.g. 1990" v-model="houseInfo.constructionYear"
+        <input type="number" name="constructionYear" placeholder="e.g. 1990" v-model="houseInfo.constructionYear"
           :class="{ 'error': missingFields.includes('constructionYear') }">
-        <span v-if="missingFields.includes('constructionYear')" class="error-message">Required field is missing.</span>
+        <span v-if="missingFields.includes('constructionYear')" class="error-message">{{ constructionYearErrorMessage
+        }}</span>
 
         <!-- description -->
         <label for="description" class="input-title">Description*</label>
@@ -122,7 +125,7 @@
         </div>
       </div>
     </div>
-</form>
+  </form>
 </template>
 
 <script>
@@ -143,6 +146,8 @@ export default {
       missingFields: [],
       removeImageButton: '../../assets/ic_clear_white@3x.png',
       imageVisible: true,
+      currencySymbol: false,
+      constructionYearErrorMessage: ''
     }
   },
   props: [
@@ -152,6 +157,7 @@ export default {
     'image',
     'backButtonImage'
   ],
+
   computed: {
     ...mapState(['houses', 'listing']),
     imageStyle() {
@@ -161,6 +167,9 @@ export default {
       return this.uploadedImage ? 'remove-button' : 'no-remove-button';
     },
 
+    imageToLocalStorage() {
+      return JSON.stringify(this.image);
+    }
   },
 
   methods: {
@@ -196,12 +205,20 @@ export default {
       const requiredFields = Object.entries(this.houseInfo);
       for (const [field, value] of requiredFields) {
         if (field === 'numberAddition') continue;
-        if (field === 'uploadedImage' && this.image === this.listing.image) continue;
-        if (!value && value !== 0) {
+        if (!value) {
           this.missingFields.push(field);
         }
         if (field === 'hasGarage' && (value !== 'Yes' && value !== 'No')) {
           this.missingFields.push(field);
+        }
+        if (field === 'constructionYear') {
+          if (!value) {
+            this.constructionYearErrorMessage = 'Required field is missing.';
+            this.missingFields.push(field);
+          } else if (value <= 1900) {
+            this.constructionYearErrorMessage = 'Year must be greater than 1900.';
+            this.missingFields.push(field);
+          }
         }
       }
       if (!this.displayImage && this.image !== this.listing.image) {
@@ -215,6 +232,7 @@ export default {
     toggleGarage() {
       this.$emit('toggleGarage')
     },
+
   },
 };
 </script>
@@ -273,8 +291,9 @@ input[type="number"] {
 }
 
 input[type=number]::-webkit-inner-spin-button {
-  opacity: 1;
+  opacity: 0;
 }
+
 
 .house-info-container {
   display: flex;
@@ -287,6 +306,7 @@ input[type=number]::-webkit-inner-spin-button {
   flex-direction: row;
   width: 100%;
   gap: 30px;
+  position: relative;
 }
 
 
