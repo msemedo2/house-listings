@@ -14,7 +14,7 @@
 
 		<!-- house listings -->
 		<house-list />
-	</div>
+</div>
 </template>
 
 <script>

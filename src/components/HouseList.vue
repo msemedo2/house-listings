@@ -39,7 +39,7 @@
       <img src="../../assets/img_empty_houses@3x.png" alt="house" class="no-results-image">
       <p>No results found.<br>Please try another keyword.</p>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -194,6 +194,9 @@ h2 {
 }
 
 @media (max-width: 500px) {
+  .house-listings-container {
+    margin-bottom: 50px;
+  }
 
   .delete-icon,
   .edit-icon {

@@ -49,7 +49,7 @@ export default {
 
     toggleGarage() {
       this.houseInfo.hasGarage = this.houseInfo.hasGarage === 'Yes' ? 'No' : 'Yes'
-    }
+    },
   }
 }
 </script>
