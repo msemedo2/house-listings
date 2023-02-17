@@ -1,6 +1,6 @@
 <template>
   <listing-form :title="title" :button="button" :houseInfo="houseInfo" @submitForm="editHouse" :image="image"
-  @update-image="updateImage" :backButtonImage="backButtonImage" @toggleGarage="toggleGarage" />
+    @update-image="updateImage" :backButtonImage="backButtonImage" @toggleGarage="toggleGarage" />
 </template>
 
 <script>
@@ -30,6 +30,9 @@ export default {
       this.formatListing();
     }
   },
+  created() {
+    this.formatListing();
+  },
   // reenforce the formatting if there is a change in the id
   watch: {
     listing() {
@@ -42,15 +45,19 @@ export default {
     formatListing() {
       // separate the value saved in store listing.location.street, into streetName and houseNumber
       const street = this.listing.location.street;
-      const streetParts = street.split(" ");
-      const houseNumber = parseInt(streetParts.pop());
-      const streetName = streetParts.join(" ");
+      const streetParts = street.split(' ');
+      const houseAndAdditionalNumber = streetParts.pop();
+      const streetName = streetParts.join(' ');
+      //separate the letters at the end from the numbers
+      const houseNumber = parseInt(houseAndAdditionalNumber.match(/\d+/g));
+      const numberAddition = houseAndAdditionalNumber.match(/[a-zA-Z]+/g)?.join('');
 
       this.houseInfo = {
         constructionYear: this.listing.constructionYear,
         description: this.listing.description,
         hasGarage: this.listing.hasGarage === true ? 'Yes' : 'No',
         city: this.listing.location.city,
+        numberAddition,
         streetName,
         houseNumber,
         zip: this.listing.location.zip,
