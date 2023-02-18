@@ -143,9 +143,9 @@ const store = createStore({
 			commit('SET_ACTIVE_MODAL', activeModal);
 		},
 
-		setListing({ state, commit }, selectedHouseIds) {
+		setListing({ state, commit }, selectedHouseId) {
 			const listing = state.houses.find(
-				(house) => house.id === selectedHouseIds
+				(house) => house.id === selectedHouseId
 			);
 			commit('SET_LISTING', listing);
 		},

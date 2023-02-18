@@ -166,7 +166,6 @@ export default {
     removeImageButtonStyle() {
       return this.uploadedImage ? 'remove-button' : 'no-remove-button';
     },
-
     imageToLocalStorage() {
       return JSON.stringify(this.image);
     }

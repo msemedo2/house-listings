@@ -1,6 +1,6 @@
 <template>
   <listing-form :title="title" :button="button" :houseInfo="houseInfo" @submitForm="postHouse" :image="image"
-  @update-image="updateImage" :backButtonImage="backButtonImage" @toggleGarage="toggleGarage" />
+    @update-image="updateImage" :backButtonImage="backButtonImage" @toggleGarage="toggleGarage" />
 </template>
 
 <script>
@@ -32,7 +32,7 @@ export default {
         description: '',
       },
       image: '../../assets/ic_upload@3x.png',
-      backButtonImage: '../../assets/ic_back_grey@3x.png'
+      backButtonImage: '../../assets/ic_back_grey@3x.png',
     }
   },
   computed: {
@@ -50,6 +50,6 @@ export default {
     toggleGarage() {
       this.houseInfo.hasGarage = this.houseInfo.hasGarage === 'Yes' ? 'No' : 'Yes'
     },
-  }
+  },
 }
 </script>

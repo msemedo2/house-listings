@@ -7,7 +7,7 @@
       </div>
       <div class="house-info-container">
         <div class="header-container">
-          <h2>{{ selectedHouse.location.street }}</h2>
+          <h2>{{ selectedHouse.location?.street || listing.streetName }}</h2>
           <div>
             <!-- edit / delete button -->
             <edit-button :deleteButton="deleteButton" :editButton="editButton" />
@@ -15,8 +15,8 @@
         </div>
         <div class="house-info">
           <img src="../../assets/ic_location@3x.png" alt="location icon" class="icon">
-          <p class="listing-text">{{ selectedHouse.location.zip }}</p>
-          <p class="listing-text">{{ selectedHouse.location.city }}</p>
+          <p class="listing-text">{{ selectedHouse.location?.zip || listing.zip }}</p>
+          <p class="listing-text">{{ selectedHouse.location?.city || listing.city }}</p>
         </div>
         <div class="house-info">
           <img src="../../assets/ic_price@3x.png" alt="location icon" class="icon">
@@ -28,9 +28,9 @@
         </div>
         <div class="house-info">
           <img src="../../assets/ic_bed@3x.png" alt="location icon" class="icon">
-          <p class="listing-text">{{ selectedHouse.rooms.bedrooms }}</p>
+          <p class="listing-text">{{ selectedHouse.rooms?.bedrooms || listing.bedrooms }}</p>
           <img src="../../assets/ic_bath@3x.png" alt="location icon" class="icon">
-          <p class="listing-text">{{ selectedHouse.rooms.bathrooms }}</p>
+          <p class="listing-text">{{ selectedHouse.rooms?.bathrooms || listing.bathrooms }}</p>
           <img src="../../assets/ic_garage@3x.png" alt="location icon" class="icon">
           <p class="listing-text">{{ selectedHouse.hasGarage ? 'Yes' : 'No' }}</p>
         </div>
@@ -44,7 +44,6 @@
 import BackButton from '../components/BackButton.vue';
 import EditButton from '../components/EditButton.vue';
 import { mapState } from 'vuex'
-
 export default {
   name: 'HouseDetail',
   components: {
@@ -65,17 +64,14 @@ export default {
     selectedHouse() {
       return this.houses.find(house => house.id === parseInt(this.id));
     },
-
   },
   methods: {
     setSelectedHouseId() {
       this.$store.dispatch('setSelectedHouseId', this.id)
     },
-
     setListing() {
       this.$store.dispatch('setListing', parseInt(this.$store.state.selectedHouseId));
     },
-
     // passing backButtonImage as props depending on the screen size
     checkScreenSize() {
       if (window.innerWidth < 501) {
@@ -89,12 +85,12 @@ export default {
       }
     }
   },
-
   mounted() {
+    this.checkScreenSize()
+    window.addEventListener('resize', this.checkScreenSize)
+
     this.setSelectedHouseId()
     this.setListing()
-    window.addEventListener('resize', this.checkScreenSize)
-    this.checkScreenSize()
   }
 }
 </script>
