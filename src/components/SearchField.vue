@@ -1,6 +1,8 @@
 <template>
 	<div class="input-container">
-		<img class="magnify-img" src="../../assets/ic_search@3x.png" alt="magnifying glass" />
+		<div class="magnify-img-container">
+			<img class="magnify-img" src="../../assets/ic_search@3x.png" alt="magnifying glass" />
+		</div>
 		<input type="text" placeholder="Search for a house" v-model="searchValue" @input="updateSearchValue" />
 	</div>
 </template>
@@ -29,6 +31,13 @@ export default {
 	padding: 5px 5px 5px 5px;
 	border-radius: 5px;
 	width: 45%;
+	display: flex;
+	text-align: center;
+}
+
+.magnify-img-container {
+	position: relative;
+	top: 7px;
 }
 
 .magnify-img {
@@ -47,6 +56,10 @@ input {
 	.input-container {
 		width: 100%;
 		height: 35px;
+	}
+
+	.magnify-img-container {
+		top: 0px;
 	}
 }
 </style>

@@ -7,7 +7,12 @@
       </div>
       <div class="house-info-container">
         <div class="header-container">
-          <h2>{{ selectedHouse.location?.street || listing.streetName }}</h2>
+          <div class="header">
+            <h2>{{ selectedHouse.location?.street || listing.streetName }}</h2>
+            <div class="favorites-container" :class="{ 'favorite-primary': isHouseInFavorites(selectedHouseId) }">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
           <div>
             <!-- edit / delete button -->
             <edit-button :deleteButton="deleteButton" :editButton="editButton" />
@@ -60,7 +65,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['houses', 'listing']),
+    ...mapState(['houses', 'listing', 'favoriteHouses', 'selectedHouseId']),
     selectedHouse() {
       return this.houses.find(house => house.id === parseInt(this.id));
     },
@@ -83,14 +88,21 @@ export default {
         this.editButton = '../../assets/ic_edit@3x.png'
         this.deleteButton = '../../assets/ic_delete@3x.png'
       }
-    }
+    },
+    isHouseInFavorites() {
+      return this.favoriteHouses.some(
+        (favoriteHouse) => favoriteHouse.id === parseInt(this.selectedHouseId)
+      );
+    },
   },
+
   mounted() {
     this.checkScreenSize()
     window.addEventListener('resize', this.checkScreenSize)
 
     this.setSelectedHouseId()
     this.setListing()
+    this.isHouseInFavorites();
   }
 }
 </script>
@@ -99,6 +111,10 @@ export default {
 .header-container {
   display: flex;
   justify-content: space-between;
+}
+
+.header {
+  display: flex;
 }
 
 .image-container {
@@ -154,6 +170,19 @@ export default {
   line-height: 1.7;
 }
 
+.favorites-container {
+  font-size: var(--fs-header2);
+  margin-left: 15px;
+}
+
+.favorites-container {
+  color: var(--secondary-color);
+}
+
+.favorites-container.favorite-primary {
+  color: var(--primary-color);
+}
+
 @media (max-width: 500px) {
   .go-back-container {
     position: absolute;
@@ -177,5 +206,6 @@ export default {
     top: -50px;
     border-radius: 20px 20px 0 0;
   }
+
 }
 </style>

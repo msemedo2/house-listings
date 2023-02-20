@@ -1,13 +1,25 @@
 <template>
   <div class="filter-container">
-    <button class="price-button" :style="{ backgroundColor: buttonColors[0] }"
-      @click="changeColor(0), setActiveSortButton(0)">
-      Price
-    </button>
-    <button class="size-button" :style="{ backgroundColor: buttonColors[1] }"
-      @click="changeColor(1), setActiveSortButton(1)">
-      Size
-    </button>
+    <div class="price-size-container">
+      <button class="btn price-button" :style="{ backgroundColor: buttonColors[0] }"
+        @click="changeColor(0), setActiveSortButton(0)">
+        Price
+      </button>
+      <button class="btn size-button" :style="{ backgroundColor: buttonColors[1] }"
+        @click="changeColor(1), setActiveSortButton(1)">
+        Size
+      </button>
+    </div>
+    <div class="favorites-reset-container">
+      <button class="btn favorites-button" :style="{ backgroundColor: buttonColors[2] }"
+        @click="changeColor(2), setActiveSortButton(2)">
+        Favorites
+      </button>
+      <button class="btn reset-button" :style="{ backgroundColor: buttonColors[3] }"
+        @click="changeColor(3), setActiveSortButton(3)">
+        Reset
+      </button>
+    </div>
   </div>
 </template>
 
@@ -17,7 +29,7 @@ export default {
   name: 'SortButtons',
   data() {
     return {
-      buttonColors: ['var(--tertiary-color-dark)', 'var(--tertiary-color-dark)'],
+      buttonColors: ['var(--tertiary-color-dark)', 'var(--tertiary-color-dark)', 'var(--tertiary-color-dark)', 'var(--tertiary-color-dark)'],
     };
   },
   methods: {
@@ -26,7 +38,7 @@ export default {
       if (this.buttonColors) {
         this.buttonColors[index] = 'var(--primary-color)'
       }
-      const newButtonColors = ['var(--tertiary-color-dark)', 'var(--tertiary-color-dark)'];
+      const newButtonColors = ['var(--tertiary-color-dark)', 'var(--tertiary-color-dark)', 'var(--tertiary-color-dark)', 'var(--tertiary-color-dark)'];
       newButtonColors[index] = 'var(--primary-color)';
       this.buttonColors = newButtonColors;
     },
@@ -41,41 +53,51 @@ export default {
 
 <style scoped>
 .filter-container {
-  width: 40%;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  width: 45%;
+
 }
 
-.options-container {
-  margin-top: 30px;
+.price-size-container,
+.favorites-reset-container {
   display: flex;
-  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+
 }
 
-.price-button,
-.size-button {
+.favorites-reset-container {
+  margin-top: 5px;
+}
+
+.btn {
   height: 100%;
   width: 50%;
-  max-width: 35%;
   min-width: 98px;
 }
 
-.price-button {
+.price-button,
+.favorites-button {
   border-radius: 8px 0 0 8px;
 }
 
-.size-button {
+.size-button,
+.reset-button {
   border-radius: 0 10px 10px 0;
 }
 
 @media (max-width: 500px) {
+  .favorites-reset-container {
+    margin-bottom: 50px;
+  }
+
   .filter-container {
     width: 100%;
     margin-top: 20px;
   }
 
-  .price-button,
-  .size-button {
+  .btn {
     height: 35px;
     width: 50%;
     max-width: 100%;

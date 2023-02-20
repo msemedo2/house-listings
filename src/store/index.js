@@ -19,11 +19,13 @@ const store = createStore({
 		selectedHouseId: '',
 		activeModal: false,
 		listing: {},
+		favoriteHouses: [],
 	},
 	plugins: [
 		createPersistedState({
 			key: 'house-listings',
-			storage: window.sessionStorage,
+			storage: window.localStorage,
+			paths: ['houses', 'selectedHouseId', 'listing', 'favoriteHouses'],
 		}),
 	],
 	mutations: {
@@ -50,6 +52,14 @@ const store = createStore({
 		},
 		ADD_HOUSE(state, house) {
 			state.houses.push(house);
+		},
+		ADD_HOUSE_TO_FAVORITE(state, house) {
+			state.favoriteHouses.push(house);
+		},
+		REMOVE_HOUSE_TO_FAVORITE(state, house) {
+			state.favoriteHouses = state.favoriteHouses.filter(
+				(favoriteHouse) => favoriteHouse.id !== house.id
+			);
 		},
 	},
 
@@ -152,6 +162,16 @@ const store = createStore({
 
 		addHouse({ commit }, house) {
 			commit('ADD_HOUSE', house);
+		},
+
+		addHouseToFavorites({ commit, state }, selectedHouseId) {
+			const house = state.houses.find((house) => house.id === selectedHouseId);
+			commit('ADD_HOUSE_TO_FAVORITE', house);
+		},
+
+		removeHouseFromFavorites({ commit, state }, selectedHouseId) {
+			const house = state.houses.find((house) => house.id === selectedHouseId);
+			commit('REMOVE_HOUSE_TO_FAVORITE', house);
 		},
 	},
 });

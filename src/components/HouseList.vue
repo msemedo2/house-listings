@@ -25,12 +25,19 @@
         <p class="price-text">€ {{ separateWithDot(price) }}</p>
         <p class="city">{{ location.zip }} {{ location.city }}</p>
         <div class="house-info-container">
-          <img class="info-icon" src="../../assets/ic_bed@3x.png" alt="bed">
-          <p>{{ rooms.bedrooms }}</p>
-          <img class="info-icon" src="../../assets/ic_bath@3x.png" alt="bed">
-          <p>{{ rooms.bathrooms }}</p>
-          <img class="info-icon" src="../../assets/ic_size@3x.png" alt="bed">
-          <p>{{ size }} m2</p>
+          <div class="house-footer">
+            <img class="info-icon" src="../../assets/ic_bed@3x.png" alt="bed">
+            <p>{{ rooms.bedrooms }}</p>
+            <img class="info-icon" src="../../assets/ic_bath@3x.png" alt="bed">
+            <p>{{ rooms.bathrooms }}</p>
+            <img class="info-icon" src="../../assets/ic_size@3x.png" alt="bed">
+            <p>{{ size }} m2</p>
+          </div>
+          <!-- favorites icons -->
+          <div class="favorites-container" @click.prevent="addHouseToFavorites(id)"
+            :class="{ 'favorite-primary': isHouseInFavorites(id) }">
+            <i class="fa-solid fa-heart"></i>
+          </div>
         </div>
       </div>
     </router-link>
@@ -47,8 +54,13 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'HouseList',
+  data() {
+    return {
+      favoriteHouseIds: [],
+    };
+  },
   computed: {
-    ...mapState(['houses', 'searchValue', 'activeSortButton']),
+    ...mapState(['houses', 'searchValue', 'activeSortButton', 'selectedHouseId', 'favoriteHouses']),
 
     // filter houses based on all the possible inputs (title, price, postal code, size, city)
     // use the searchValue saved in store
@@ -72,10 +84,13 @@ export default {
         return filteredHouses.sort((a, b) => a.price - b.price);
       } else if (this.activeSortButton === 1) {
         return filteredHouses.sort((a, b) => a.size - b.size);
+      } else if (this.activeSortButton === 2) {
+        return filteredHouses.filter(house => this.favoriteHouses.some(favorite => favorite.id === house.id));
+      } else if (this.activeSortButton === 3) {
+        return filteredHouses.sort((a, b) => this.houses.indexOf(a) - this.houses.indexOf(b));
       }
       return filteredHouses;
     },
-
   },
   methods: {
     // add dot separation on thousands for price
@@ -97,9 +112,27 @@ export default {
     setListing(id) {
       this.setSelectedHouseId(id)
       this.$store.dispatch("setListing", this.$store.state.selectedHouseId);
-    }
-  },
+    },
 
+    // set house as favorite and save it in vuex store
+    addHouseToFavorites(id) {
+      this.setSelectedHouseId(id);
+
+      // check if house is already in favorites and return to avoid duplicates
+      const houseAlreadyInFavorites = this.$store.state.favoriteHouses.find(favoriteHouse => favoriteHouse.id === this.selectedHouseId);
+      if (houseAlreadyInFavorites) {
+        this.$store.dispatch('removeHouseFromFavorites', this.$store.state.selectedHouseId)
+      } else {
+        this.$store.dispatch('addHouseToFavorites', this.$store.state.selectedHouseId)
+        this.favoriteHouseIds.push(this.selectedHouseId);
+      }
+    },
+    isHouseInFavorites(id) {
+      return this.favoriteHouses.some(
+        (favoriteHouse) => favoriteHouse.id === id
+      );
+    },
+  }
 };
 </script>
 
@@ -169,9 +202,23 @@ h2 {
 
 .house-info-container {
   display: flex;
+  justify-content: space-between;
+}
+
+.house-footer {
+  display: flex;
   gap: 10px;
   align-items: flex-end;
   color: var(--secondary-color);
+}
+
+.favorites-container {
+  margin-right: 15px;
+  color: var(--secondary-color);
+}
+
+.favorites-container.favorite-primary {
+  color: var(--primary-color);
 }
 
 .info-icon {
@@ -201,6 +248,10 @@ h2 {
   .delete-icon,
   .edit-icon {
     margin: 5px 6px 0 0;
+  }
+
+  .favorites-container {
+    margin-right: 6px;
   }
 }
 </style>

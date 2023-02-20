@@ -17,7 +17,7 @@
 				</router-link>
 			</ul>
 		</nav>
-</header>
+	</header>
 </template>
 
 <script>

@@ -14,7 +14,7 @@
 
 		<!-- house listings -->
 		<house-list />
-</div>
+	</div>
 </template>
 
 <script>
@@ -51,6 +51,7 @@ export default {
 
 .options-container {
 	width: 100%;
+	height: 50px;
 	margin-top: 30px;
 	display: flex;
 	justify-content: space-between;
@@ -82,7 +83,7 @@ export default {
 	.options-container {
 		flex-direction: column;
 		justify-content: center;
-		margin-top: 20px;
+		margin-top: 100px;
 	}
 }
 </style>
