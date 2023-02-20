@@ -89,6 +89,7 @@ export default {
         this.deleteButton = '../../assets/ic_delete@3x.png'
       }
     },
+    //check if house in favorites, display icon accordingly
     isHouseInFavorites() {
       return this.favoriteHouses.some(
         (favoriteHouse) => favoriteHouse.id === parseInt(this.selectedHouseId)
@@ -206,6 +207,5 @@ export default {
     top: -50px;
     border-radius: 20px 20px 0 0;
   }
-
 }
 </style>

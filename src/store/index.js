@@ -21,6 +21,7 @@ const store = createStore({
 		listing: {},
 		favoriteHouses: [],
 	},
+	//persist selected state in localStorage
 	plugins: [
 		createPersistedState({
 			key: 'house-listings',

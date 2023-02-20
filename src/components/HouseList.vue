@@ -76,7 +76,7 @@ export default {
       });
     },
 
-    // sort house array based on the button clicked(price/size)
+    // sort house array based on the button clicked(price/size/favorites/reset)
     // use the activeSortButton saved in store
     sortedHouses() {
       const filteredHouses = this.filteredHouses;
@@ -118,7 +118,7 @@ export default {
     addHouseToFavorites(id) {
       this.setSelectedHouseId(id);
 
-      // check if house is already in favorites and return to avoid duplicates
+      // check if house is already in favorites and add/remove from favorites accordingly
       const houseAlreadyInFavorites = this.$store.state.favoriteHouses.find(favoriteHouse => favoriteHouse.id === this.selectedHouseId);
       if (houseAlreadyInFavorites) {
         this.$store.dispatch('removeHouseFromFavorites', this.$store.state.selectedHouseId)
@@ -127,6 +127,7 @@ export default {
         this.favoriteHouseIds.push(this.selectedHouseId);
       }
     },
+    // check if house is already in favorites and change the icon color accordingly
     isHouseInFavorites(id) {
       return this.favoriteHouses.some(
         (favoriteHouse) => favoriteHouse.id === id

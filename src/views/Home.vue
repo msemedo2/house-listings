@@ -6,7 +6,7 @@
 			<app-button />
 		</div>
 
-		<!-- search field, price / size sort option -->
+		<!-- search field, price / size, sort, favorites, reset option -->
 		<div class="options-container">
 			<search-field />
 			<sort-buttons />

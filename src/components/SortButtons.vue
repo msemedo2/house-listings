@@ -33,7 +33,7 @@ export default {
     };
   },
   methods: {
-    // buttons start gray and if clicked turn orange, from then when grey button is clicked colors are reversed
+    // active button color set to primary
     changeColor(index) {
       if (this.buttonColors) {
         this.buttonColors[index] = 'var(--primary-color)'
